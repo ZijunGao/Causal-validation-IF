@@ -122,4 +122,4 @@ legend("topleft", legend = c("oracle.infData", "oracle", "semiEfficient", "AVDS"
 # results
 result
 
-# saveRDS(record, file.path("~/Desktop/Research/Zijun/causal validation/Causal-validation/data", paste(setting, " relative", ".rds", sep= "")))
+# saveRDS(list(result = result, record = record, lambda.seq = lambda.seq), file.path("~/Desktop/Research/Zijun/causal validation/Causal-validation/data", paste(setting, " relative", ".rds", sep= "")))

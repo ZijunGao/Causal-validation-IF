@@ -5,20 +5,20 @@
 rm(list = ls())
 source("~/Desktop/Research/Zijun/causal validation/Causal-validation/helper.R")
 
-n = 1000 # number of observations; 400
-n.train = 1000 # 400
+n = 2000 # number of observations; 400
+n.train = 2000 # 400
 n.test = 10000
-d = 5  # number of covariates
+d = 10  # number of covariates
 n.fold = 2 # 2, 5
 
 beta0 = 1; beta = rep(1, d)
-delta0 = 1; delta = rep(1, d)
+delta0 = 1; delta = rep(1/4, d); # delta[1:(d/2)] = 0
 sigma = 1 # 1
 p = 0.5
 
-method = "gradient boosting S learner" # "linear"; "gradient boosting"; "gradient boosting early stopping", "gradient boosting S learner"
+method = "linear" # "linear"; "ridge"; "LASSO"; "gradient boosting"; "gradient boosting S learner"
 
-m = 100
+m = 20
 record = list()
 record$oracle.infData = record$oracle = record$semiEfficient = record$sd.oracle.infData = record$sd.oracle = record$sd.semiEfficient = record$AVDS = record$sd.AVDS = record$plug.in = record$sd.plug.in = matrix(0 , nrow = m, ncol = 2)
 
@@ -35,7 +35,7 @@ if(setting == "inaccurate nuisance function estimator"){
 X.test = matrix(rnorm(n.test * d), nrow = n.test)  # covariates
 W.test = rbinom(n.test, 1, p) # binary treatment
 mu0.test = beta0 + X.test %*% beta # + X.test[, 1]^2
-tau.test = X.test %*% delta + delta0 + X.test[, 1]^2 
+tau.test = X.test %*% delta + delta0 # + X.test[, 1]^2 
 mu1.test = mu0.test + tau.test
 Y0.test = mu0.test + rnorm(n.test, 0, sigma) # outcome with treatment effect
 Y1.test = Y0.test + tau.test
@@ -46,7 +46,7 @@ for (i in 1 : m){
   X.train = matrix(rnorm(n.train * d), nrow = n.train)  # covariates
   W.train = rbinom(n.train, 1, p) # binary treatment
   mu0.train = beta0 + X.train %*% beta # + X.train[, 1]^2
-  tau.train = X.train %*% delta + delta0 + X.train[, 1]^2 
+  tau.train = X.train %*% delta + delta0 # + X.train[, 1]^2 
   mu1.train = mu0.train + tau.train
   Y0.train = mu0.train + rnorm(n.train, 0, sigma)  # outcome with treatment effect
   Y1.train = Y0.train + tau.train
@@ -56,7 +56,7 @@ for (i in 1 : m){
   X = matrix(rnorm(n * d), nrow = n)  # covariates
   W = rbinom(n, 1, 0.5)  # binary treatment
   mu0 = beta0 + X %*% beta # + X[, 1]^2
-  tau = X %*% delta + delta0 + X[, 1]^2
+  tau = X %*% delta + delta0 # + X[, 1]^2
   mu1 = mu0 + tau
   Y0 = mu0 + rnorm(n, 0, sigma)  # outcome with treatment effect
   Y1 = Y0 + tau

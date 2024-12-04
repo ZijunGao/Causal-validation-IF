@@ -1,0 +1,142 @@
+---
+title: "Winner selection"
+author: "Zijun Gao"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Warm-up: multivariate normal
+
+### Select a winner 
+Consider $X \in \mathbb{R}^d$, $X \sim \mathcal{N}(\mu, \Sigma)$. Here $\Sigma$ is typically not diagonal.
+Let $w^*$ denote the true winner, i.e., $w^* = \arg\min_i \mu_i$. 
+We observe $n$ i.i.d. realizations of the multivariate normal.
+We select the coordinate with the minimal empirical mean as the winner, denoted by $\hat{w}$.
+
+Define the null
+\begin{align*}
+  H_{i <, 0}: \mu_i \ge \mu_j, \quad \text{for some}~j \neq i. 
+\end{align*}
+We are interested in testing the null $H_{\hat{w} <,0}$, which depends on the selection $\hat{w}$.
+Provided with $\hat{w}$, we compute the individual one-sided p-value as $P_i := \Phi(X_{\hat{w}} - X_i; -\inf, 0)$, $i \neq \hat{w}$, where $\Phi(\cdot; a, b)$ denotes the CDF of the truncated normal supported on $(a, b)$.
+We further take the maximal value of all individual p-values $P := \max_{i \neq \hat{w}} P_i$.  
+
+If the selection is incorrect, i.e., $\hat{w} \neq w^*$, then $\mathbb{P}(H_{w^*<,0} ~\text{rejected} \mid \hat{w} = w^*)$ denotes the conditional type I error.
+If the selection is correct, i.e., $\hat{w} = w^*$, then $\mathbb{P}(H_{w^*<,0} ~\text{rejected} \mid \hat{w} = w^*)$ denotes the conditional power.
+The primary goal is to produce a test with reasonable conditional power while controlling the conditional type I error.
+
+
+Discussion:
+
+  * Taking the maximum of individual p-values could be conservative, but seems unavoidable. In fact, consider the null $\mu_1 \approx \mu_2 \ll \mu_3, \ldots, \mu_d$, $w^* = 1$. Conditional on the event $\hat{w} = 2$, the maximal p-value approximately follows $U(0,1)$. 
+  * Data carving might be useful: use part of the randomness for selection and reserve part of the randomness for inference.
+  * Can the method in Lee et.al. be more powerful?
+  * What if we aim to control the marginal type I error and improve the marginal power (marginalized over the selected winner $\hat{w}$)? Note that if we could select the right winner with probability at least $1 - \alpha$, then the marginal type I error is automatically protected.
+  * Future direction: instead of choosing only one winner, choose a set of candidate winners containing the winner. Here the null is: the selected set does not contain the winner.
+
+
+```{r}
+# Load necessary library
+library(MASS)
+
+set.seed(318)
+
+# Set parameters
+d = 40 # Dimension
+p.value = rep(0, d)
+mu = rep(0, d); mu[1] = -1; mu[2] = -1; mu[3] = -1 # Mean vector with the first element to be the winner, i.e., the coordinate with the smallest mu is the true winner
+Sigma = matrix(0.8, nrow = d, ncol = d)  # Covariance matrix
+diag(Sigma) = 1
+alpha = 0.05
+
+n = 100  # Number of observations
+m = 1000  # Number of simulation trials
+record = list()
+record$p.value = record$test.stats = record$correct.selection = rep(0, m)
+
+# Simulation process
+for (i in 1:m) {
+  # Generate data
+  X = mvrnorm(n = n, mu = mu, Sigma = Sigma)
+  
+  # Test statistics
+  test.stats = apply(X, 2, mean)
+  winner.hat = which.min(test.stats)  # Identify the minimum (the smaller, the better)
+  
+  # p-values
+  sd.hat = apply(X - X[, rep(winner.hat, d)], 2, sd) / sqrt(n)
+  p.value = pnorm((test.stats[winner.hat] - test.stats[-winner.hat]) / sd.hat[-winner.hat], 0, 1) / pnorm(0, 0, 1) # truncated normal on (-\inf, 0]
+  
+  # Record the max p-value and the corresponding test statistic
+  record$p.value[i] = max(p.value)
+  record$test.stats[i] = max((test.stats[winner.hat] - test.stats[-winner.hat]) / sd.hat[-winner.hat])
+  winner.true = which.min(mu) # Suppose the true winner is unique
+  record$correct.selection[i] = (winner.true == winner.hat)
+}
+
+# Plot histograms
+par(mfrow = c(2, 2))
+hist(record$test.stats, main = "", xlab = "Test statistic")
+hist(record$p.value, xlim = c(0, 1), main = "", xlab = "P value", breaks = 100)
+hist(record$p.value[record$correct.selection == 1], xlim = c(0, 1), main = "", xlab = "P value | winner.hat = winner true (power)", breaks = 100)
+hist(record$p.value[record$correct.selection == 0], xlim = c(0, 1), main = "", xlab = "P value | winner.hat != winner true (type I error)", breaks = 100)
+
+alpha = 0.05
+print("Type I error"); mean(record$p.value[record$correct.selection == 0] < alpha)
+print("Conditional power"); mean(record$p.value[record$correct.selection == 1] < alpha); 
+print("Marginal power"); mean(record$p.value[record$correct.selection == 1] < alpha); mean(record$p.value[record$correct.selection == 1] < alpha) * mean(record$correct.selection == 1)
+```
+
+### Select a set of winners
+
+```{r partitioning}
+# helper
+# null distribution
+  # test.stats.function: test stats function
+  # mu, sigma: least favorable null
+  # M: number of Monte Carlo repetitions
+test.stats.ref = function(mu, Sigma, test.stats.function, M = 1000){
+  X = mvrnorm(n = M, mu = mu, Sigma = Sigma)
+  return(apply(X, 1, test.stats.function))
+}
+
+set.seed(318)
+
+# Set parameters
+d = 40 # Dimension
+n = 100  # Number of observations
+mu = rep(0, d); mu[1] = -1; mu[2] = -1; mu[3] = -1 # Mean vector with the first element to be the winner, i.e., the coordinate with the smallest mu is the true winner
+winner.true = which.min(mu) # if there is tie, return the one with the minimal index
+Sigma = matrix(0.8, nrow = d, ncol = d)  # Covariance matrix
+diag(Sigma) = 1
+alpha = 0.05
+
+test.stats.function = function(x, index = 1){return(x[index] - min(x[-index]))}
+mu.least.favorable = rep(0, d)
+
+m = 1000  # Number of simulation trials
+record = list()
+record$p.value = record$test.stats = record$selection = matrix(0, m, d)
+for (i in 1:m) {
+  # Generate data
+  X = mvrnorm(n = n, mu = mu, Sigma = Sigma)
+  mu.hat = apply(X, 2, mean)
+  Sigma.hat = cov(X) / n
+  
+  # Least favorable distribution 
+  Sigma.least.favorable = Sigma.hat
+  test.stats.MC = test.stats.ref(mu = mu.least.favorable, 
+                                 Sigma = Sigma.least.favorable, 
+                                 test.stats.function = test.stats.function)
+
+  # Test statistics
+  record$test.stats[i, ] = sapply(seq(1, d), function(index){test.stats.function(x = mu.hat, index = index)})
+  record$p.value[i, ] = sapply(record$test.stats[i, ], function(x){mean(test.stats.MC >= x)})
+  record$selection[i, ] = (record$p.value[i, ] > alpha)  # Select the coordinates whose null is not rejected
+}
+
+# Plot histograms
+print("Type I error"); 1 - mean(record$selection[, winner.true])
+print("Number of selected coordinates"); hist(apply(record$selection, 1, sum))
+
+```

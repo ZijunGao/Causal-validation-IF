@@ -28,7 +28,7 @@ m = 10 # 100
 record = list()
 record$oracle.infData = record$oracle = record$semiEfficient = record$sd.semiEfficient = record$AVDS = record$sd.AVDS = record$plug.in = record$sd.plug.in = matrix(0 , nrow = m, ncol = length(lambda.seq))
 
-setting = "default" # "homophily", "similar HTE estimator"
+setting = "similar HTE estimator" # "homophily", "similar HTE estimator"
 if(setting == "homophily"){
   method = "linear"
   # use the quadratic HTE: tau = X %*% delta + delta0 + X[, 1]^2 
@@ -127,5 +127,5 @@ legend("topleft", legend = c("oracle.infData", "oracle", "semiEfficient", "plug.
 result
 lapply(result[c("oracle.infData", "oracle", "semiEfficient", "plug.in", "AVDS")], diff)
 
-# saveRDS(record, file.path("~/Desktop/Research/Zijun/causal validation/Causal-validation/data", paste(setting, " absolute", ".rds", sep= "")))
+# saveRDS(list(result = result, record = record, lambda.seq = lambda.seq), file.path("~/Desktop/Research/Zijun/causal validation/Causal-validation/data", paste(setting, " absolute", ".rds", sep= "")))
 

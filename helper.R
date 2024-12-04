@@ -1,5 +1,8 @@
 # helper for causal validation
-library("xgboost", "caret")
+library("xgboost")
+library("caret")
+library("glmnet")
+library("ggplot2")
 
 # General input:
   # Y: A vector representing the responses.
@@ -22,7 +25,7 @@ library("xgboost", "caret")
   # n = 400
   # folds = sample(rep(1 : 2, length.out = n))
   # cross_fitting_results = cross_fitting(Y = Y, X = X, W = W, folds = folds)
-cross_fitting = function(Y, X, W, folds = NULL, n.fold = 2, prop = NULL, method = "linear", prop.method = NULL) {
+cross_fitting = function(Y, X, W, folds = NULL, n.fold = 2, prop = NULL, method = "linear", prop.method = NULL, mu0 = mu0, mu1 = mu1) {
   # preprocess
   n = length(Y)
   data = data.frame(Y, X, W, X * W)
@@ -37,6 +40,12 @@ cross_fitting = function(Y, X, W, folds = NULL, n.fold = 2, prop = NULL, method 
   
   result = list()
   result$mu1.hat = result$mu0.hat = result$prop.hat = rep(0, n)
+  if(method == "true"){
+    result$mu1.hat = mu1
+    result$mu0.hat = mu0
+    result$prop.hat = prop
+    return(result)
+  }
   for (k in 1 : n.fold) {
     # fit the model on the training data and predict on the test data
     if(is.null(prop)){
