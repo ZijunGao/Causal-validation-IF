@@ -11,8 +11,10 @@ library(ggplot2)
 setting.total = "nuisance learner"  # "sample size", "nuisance learner" 
 if(setting.total == "sample size"){
   setting.seq = paste("simulation", c(500, 1000, 1500, 2000, 2500, 3000))
+  plot.name.seq = paste("simulation", c(500, 1000, 1500, 2000, 2500, 3000), sep = "_")
 }else if(setting.total == "nuisance learner"){
   setting.seq = paste("simulation", c("true", "linear", "ridge", "LASSO", "gradient boosting", "gradient boosting S learner"))  
+  plot.name.seq = paste("simulation", c("true", "linear", "ridge", "LASSO", "gradient_boosting", "gradient_boosting_S_learner"), sep = "_")  
 }
 record = readRDS(file.path(path, paste(setting.total, "rds", sep = ".")))
 m = 100
@@ -33,6 +35,7 @@ custom_theme = theme_minimal(base_size = 14) + theme(
 # plot of error of estimated errors  
 for(i in 1:length(setting.seq)){
   setting = setting.seq[i]
+  plot.name = plot.name.seq[i]
   plot.data = data.frame(coverage = c(unlist(lapply(record$record.absolute.total[[i]], function(x){mean(abs( x$plug.in[,1] - x$oracle[,1]) < (qnorm(1 - alpha / 2) * x$sd.plug.in[, 1]) )})), 
                                       unlist(lapply(record$record.absolute.total[[i]], function(x){mean(abs(x$AVDS[,1] - x$oracle[,1]) < (qnorm(1 - alpha / 2) * x$sd.AVDS[, 1]) )})),  
                                       unlist(lapply(record$record.absolute.total[[i]], function(x){mean(abs(x$semiEfficient[,1] - x$oracle[,1]) < (qnorm(1 - alpha / 2) * x$sd.semiEfficient[, 1]) )})),  
@@ -48,7 +51,7 @@ for(i in 1:length(setting.seq)){
   
   line.width = 2; point.size = 3
   # LASSO
-  pdf(file = paste(plotDirectory, "/", setting, " coverage", " LASSO", ".pdf", sep = ""), width = 5, height = 3.5)
+  pdf(file = paste(plotDirectory, "/", plot.name, "_coverage", "_LASSO", ".pdf", sep = ""), width = 5, height = 3.5)
   g = ggplot(plot.data[plot.data$Estimator == "LASSO", ], aes(x = Method, y = coverage, fill = Method)) +
     geom_boxplot() +
     geom_hline(yintercept = 1 - alpha, linetype = "dashed", color = "black") +
@@ -63,7 +66,7 @@ for(i in 1:length(setting.seq)){
   dev.off()
   
   # Boosting
-  pdf(file = paste(plotDirectory, "/", setting, " coverage", " Boosting", ".pdf", sep = ""), width = 5, height = 3.5)
+  pdf(file = paste(plotDirectory, "/", plot.name, "_coverage", "_Boosting", ".pdf", sep = ""), width = 5, height = 3.5)
   g = ggplot(plot.data[plot.data$Estimator == "LASSO", ], aes(x = Method, y = coverage, fill = Method)) +
     geom_boxplot() +
     geom_hline(yintercept = 1 - alpha, linetype = "dashed", color = "black") +
@@ -79,7 +82,7 @@ for(i in 1:length(setting.seq)){
   
   
   # LASSO V.S. Boosting
-  pdf(file = paste(plotDirectory, "/", setting, " coverage", " LASSO V.S. Boosting", ".pdf", sep = ""), width = 5, height = 3.5)
+  pdf(file = paste(plotDirectory, "/", plot.name, "_coverage", "_LASSO_V.S._Boosting", ".pdf", sep = ""), width = 5, height = 3.5)
   g = ggplot(plot.data[(plot.data$Estimator == "LASSO V.S. Boosting") & (plot.data$Method != "plug in"), ], aes(x = Method, y = coverage, fill = Method)) +
     geom_boxplot() +
     geom_hline(yintercept = 1 - alpha, linetype = "dashed", color = "black") +

@@ -8,6 +8,10 @@ setting.seq = c("ACIC linear propensity linear HTE",
                 "ACIC linear propensity nonlinear HTE",
                 "ACIC nonlinear propensity linear HTE",
                 "ACIC nonlinear propensity nonlinear HTE")
+plot.name.seq = c("ACIC_linear_propensity_linear_HTE",
+                "ACIC_linear_propensity_nonlinear_HTE",
+                "ACIC_nonlinear_propensity_linear_HTE",
+                "ACIC_nonlinear_propensity_nonlinear_HTE")
 
 m = 100
 alpha = 0.1 # 1 - alpha confidence level
@@ -27,6 +31,7 @@ custom_theme = theme_minimal(base_size = 14) + theme(
 # plot of error of estimated errors  
 for(i in 1:length(setting.seq)){
   setting = setting.seq[i]
+  plot.name = plot.name.seq[i]
   record = readRDS(file.path(path, paste(setting, "rds", sep = ".")))
   plot.data = data.frame(width = c(unlist(lapply(record$record.absolute.total, function(x){mean(qnorm(1 - alpha / 2) * x$sd.plug.in[, 1])})), 
                                             unlist(lapply(record$record.absolute.total, function(x){mean(qnorm(1 - alpha / 2) * x$sd.AVDS[, 1])})),  
@@ -43,7 +48,7 @@ for(i in 1:length(setting.seq)){
   
   line.width = 2; point.size = 3
   # LASSO
-  pdf(file = paste(plotDirectory, "/", setting, " CI width", " LASSO", ".pdf", sep = ""), width = 5, height = 3.5)
+  pdf(file = paste(plotDirectory, "/", plot.name, "_CI_width", "_LASSO", ".pdf", sep = ""), width = 5, height = 3.5)
   g = ggplot(plot.data[plot.data$Estimator == "LASSO", ], aes(x = Method, y = width, fill = Method)) +
     geom_boxplot() +
     geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
@@ -58,7 +63,7 @@ for(i in 1:length(setting.seq)){
   dev.off()
   
   # Boosting
-  pdf(file = paste(plotDirectory, "/", setting, " CI width", " Boosting", ".pdf", sep = ""), width = 5, height = 3.5)
+  pdf(file = paste(plotDirectory, "/", plot.name, "_CI_width", "_Boosting", ".pdf", sep = ""), width = 5, height = 3.5)
   g = ggplot(plot.data[plot.data$Estimator == "Boosting", ], aes(x = Method, y = width, fill = Method)) +
     geom_boxplot() +
     geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
@@ -74,7 +79,7 @@ for(i in 1:length(setting.seq)){
   
   
   # LASSO V.S. Boosting
-  pdf(file = paste(plotDirectory, "/", setting, " CI width", " LASSO V.S. Boosting", ".pdf", sep = ""), width = 5, height = 3.5)
+  pdf(file = paste(plotDirectory, "/", plot.name, "_CI_width", "_LASSO_V.S._Boosting", ".pdf", sep = ""), width = 5, height = 3.5)
   g = ggplot(plot.data[(plot.data$Estimator == "LASSO V.S. Boosting") & (plot.data$Method != "plug in"), ], aes(x = Method, y = width, fill = Method)) +
     geom_boxplot() +
     geom_hline(yintercept = 0, linetype = "dashed", color = "black") +

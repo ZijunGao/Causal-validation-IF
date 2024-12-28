@@ -7,6 +7,8 @@ setting = c("inaccurate nuisance function estimator absolute", "inaccurate nuisa
 record.absolute = readRDS(file.path(path, paste(setting[1], "rds", sep = ".")))
 record.relative = readRDS(file.path(path, paste(setting[2], "rds", sep = ".")))
 
+plot.name = c("inaccurate_nuisance_function_estimator_absolute", "inaccurate_nuisance_function_estimator_relative")
+
 library(ggplot2) 
 
 index = 1
@@ -21,7 +23,7 @@ custom_theme = theme_minimal(base_size = 14) + theme(
   panel.grid = element_blank()
 )
 
-pdf(file = paste(plotDirectory, "/", setting[1], " LASSO", ".pdf", sep = ""), width = 3.8, height = 3.5)
+pdf(file = paste(plotDirectory, "/", plot.name[1], "_LASSO", ".pdf", sep = ""), width = 3.8, height = 3.5)
 plot.data.LASSO = data.frame("absolute_error" = c(record.absolute$plug.in[index, 1], record.absolute$AVDS[index, 1], record.absolute$semiEfficient[index, 1]), 
                              "absolute_error_sd" = c(record.absolute$sd.plug.in[index, 1], record.absolute$sd.AVDS[index, 1], record.absolute$sd.semiEfficient[index, 1]))
 plot.data.LASSO$method = factor(c("plug in", "IF", "EIF"), levels = c("plug in", "IF", "EIF"))
@@ -40,7 +42,7 @@ ggplot(plot.data.LASSO, aes(x = method, y = absolute_error, color = method)) +
 dev.off()
 
 
-pdf(file = paste(plotDirectory, "/", setting[1], " xgboost", ".pdf", sep = ""), width = 3.8, height = 3.5)
+pdf(file = paste(plotDirectory, "/", plot.name[1], "_xgboost", ".pdf", sep = ""), width = 3.8, height = 3.5)
 plot.data.xgboost = data.frame("absolute_error" = c(record.absolute$plug.in[index, 2], record.absolute$AVDS[index, 2], record.absolute$semiEfficient[index, 2]), 
                              "absolute_error_sd" = c(record.absolute$sd.plug.in[index, 2], record.absolute$sd.AVDS[index, 2], record.absolute$sd.semiEfficient[index, 2]))
 plot.data.xgboost$method = factor(c("plug in", "IF", "EIF"), levels = c("plug in", "IF", "EIF"))
@@ -59,7 +61,7 @@ ggplot(plot.data.xgboost, aes(x = method, y = absolute_error, color = method)) +
 dev.off()
 
 
-pdf(file = paste(plotDirectory, "/", setting[2], ".pdf", sep = ""), width = 3.8, height = 3.5)
+pdf(file = paste(plotDirectory, "/", plot.name[2], ".pdf", sep = ""), width = 3.8, height = 3.5)
 
 plot.data.relative = data.frame("relative_error" = c(-record.relative$AVDS[index], -record.relative$semiEfficient[index]), 
                                "relative_error_sd" = c(record.relative$sd.AVDS[index], record.relative$sd.semiEfficient[index]))

@@ -1,0 +1,1183 @@
+\documentclass[twoside]{article}
+
+\usepackage{aistats2025}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{mdwtab}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage[
+autocite    = superscript,
+backend     = bibtex, % bibtex, biber. bibtex: warning: "Using fall-back BibTeX(8) backend:(biblatex) functionality may be reduced/unavailable."
+sortcites   = true,
+style       = authoryear % numeric; nature
+]{biblatex} % to be deleted
+\addbibresource{ref.bib}
+\usepackage{cleveref}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% \usepackage{algorithmicx}
+% % \usepackage[ruled]{algorithm2e}
+% \usepackage{algpseudocode}
+% \usepackage{stfloats}
+% \usepackage[backend=biber]{biblatex}
+% \usepackage[backend=biber,style=nature]{biblatex}
+
+
+
+% If your paper is accepted, change the options for the package
+% aistats2025 as follows:
+%
+%\usepackage[accepted]{aistats2025}
+%
+% This option will print headings for the title of your paper and
+% headings for the authors names, plus a copyright note at the end of
+% the first column of the first page.
+
+% If you set papersize explicitly, activate the following three lines:
+%\special{papersize = 8.5in, 11in}
+%\setlength{\pdfpageheight}{11in}
+%\setlength{\pdfpagewidth}{8.5in}
+
+% If you use natbib package, activate the following three lines:
+%\usepackage[round]{natbib}
+%\renewcommand{\bibname}{References}
+%\renewcommand{\bibsection}{\subsubsection*{\bibname}}
+
+% If you use BibTeX in apalike style, activate the following line:
+%\bibliographystyle{apalike}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Example}
+\newtheorem{comment}{Comment}
+\newtheorem{assumption}{Assumption}
+\newtheorem{corollary}{Corollary}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert} 
+\DeclarePairedDelimiter{\brk}{[}{]}
+\DeclarePairedDelimiter{\crl}{\{}{\}}
+\DeclarePairedDelimiter{\prn}{(}{)}
+\DeclarePairedDelimiter{\norm}{\|}{\|}
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}
+\DeclarePairedDelimiter{\set}{\{}{\}}
+\newcommand{\veps}{\varepsilon}
+\newcommand{\muhat}{\hat{\mu}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cX}{\mathcal{X}}
+\renewcommand{\d}{\textnormal{d}}
+\newcommand{\vX}{\bm{X}}
+\newcommand{\vY}{\bm{Y}}
+\newcommand{\vy}{\bm{y}}
+\newcommand{\unif}{\mathrm{Unif}}
+\newcommand{\gammahat}{\hat{\gamma}}
+\newcommand{\revindent}[1][1]{\hspace{#1in}&\hspace{-#1in}}
+\newcommand{\mutil}{\wt{\mu}}
+\newcommand\diag{\textup{diag}}
+\newcommand{\Flip}[1][L]{\cF_{\mathrm{Lip},#1}}
+\newcommand{\gmstar}{\gamma^\star}
+\newcommand{\supp}{\mathrm{supp}}
+\usepackage{prettyref}
+\newcommand{\pref}[1]{\prettyref{#1}}
+\newcommand{\pfref}[1]{Proof of \Cref{#1}}
+\newcommand{\mubar}{\bar{\mu}}
+\newcommand{\phistar}{\phi^\star}
+\newcommand{\phitil}{\wt{\phi}}
+\newcommand{\fstar}{f^\star}
+\newcommand{\TV}{{\sf TV}}
+\newcommand{\LC}{{\sf LC}}
+\newcommand{\PW}{{\sf PW}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\MTV}{\mathrm{MTV}}
+\newcommand{\gmhat}{\gammahat}
+\newcommand{\lto}{\leftarrow}
+\newcommand{\idx}[1]{^{{\scriptscriptstyle(#1)}}}
+\newcommand{\vz}{\mathbf{0}}
+\newcommand{\dist}{\mathrm{dist}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\vD}{\mathbf{D}}
+\newcommand{\TP}{\mathrm{TensorProd}}
+\newcommand{\err}{\mathrm{err}}
+\newcommand{\Dhel}[2]{D_{\mathrm{H}}\prn*{#1,#2}}
+\newcommand{\Dhels}[2]{D^{2}_{\mathrm{H}}\prn*{#1,#2}}
+\usepackage{comment}
+\newcommand{\jq}[1]{{\color{brown} [JQ: #1]}}
+% \newcommand{\pfref}[1]{Proof of \Cref{#1}}
+\def\smskip{\vskip 5 pt}
+\def\medskip{\vskip 10 pt}
+\newcommand{\multiline}[1]{\parbox[t]{\dimexpr\linewidth-\algorithmicindent}{#1}}
+
+
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\1}{{\mathbbm{1}}}
+\newcommand{\mustar}{\mu_\star}
+\newcommand{\MW}{\mathrm{MW}}
+\newcommand{\QMW}{\mathrm{QMW}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\def\var{\mathsf{Var}}
+\def\cov{\mathsf{Cov}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\ldef}{:=}
+\def\EE{\mathbb{E}}
+\def\En{\mathbb{E}}
+\def\PP{\mathbb{P}}
+\def\RR{\mathbf{R}}
+\def\bP{\mathbf{P}}
+\def\bR{\mathbf{R}}
+\def\bW{\mathbf{W}}
+\def\bX{\mathbf{X}}
+\def\bY{\mathbf{Y}}
+\renewcommand{\bR}{\mathbb{R}}
+
+\newcommand{\IFC}{\text{IF}}
+\newcommand{\EIFC}{\text{EIF}}
+
+
+\begin{document}
+
+% If your paper is accepted and the title of your paper is very long,
+% the style will print as headings an error message. Use the following
+% command to supply a shorter title of your paper so that it can be
+% used as headings.
+%
+%\runningtitle{I use this title instead because the last one was very long}
+
+% If your paper is accepted and the number of authors is large, the
+% style will print as headings an error message. Use the following
+% command to supply a shorter version of the authors names so that
+% they can be used as headings (for example, use only the surnames)
+%
+%\runningauthor{Surname 1, Surname 2, Surname 3, ...., Surname n}
+
+\twocolumn[
+
+% \aistatstitle{Bridging multiple worlds: multi-marginal optimal transport for causal partial-identification problem}
+
+\aistatstitle{Trustworthy assessment of heterogeneous treatment effect estimator via analysis of relative error}
+
+% \aistatstitle{BRIDGING MULTIPLE WORLDS: MULTI-MARGINAL OPTIMAL TRANSPORT FOR CAUSAL PARTIAL-IDENTIFICATION PROBLEM}
+
+\aistatsauthor{ Zijun Gao}
+
+\aistatsaddress{USC Marshall} ]
+
+\begin{abstract}
+    Accurate heterogeneous treatment effect (HTE) estimation is essential for personalized recommendations, making it important to evaluate and compare HTE estimators. Traditional assessment methods are inapplicable due to missing counterfactuals.
+    Current HTE evaluation methods rely on additional estimation or matching on test data, often ignoring the uncertainty introduced and potentially leading to incorrect conclusions. 
+    We propose incorporating uncertainty quantification into HTE estimator comparisons.
+    In addition, we suggest shifting the focus to the estimation and inference of the relative error between methods rather than their absolute errors.
+    Methodology-wise, we develop a relative error estimator based on the efficient influence function and establish its asymptotic distribution for inference. Compared to absolute error-based methods, the relative error estimator (1) is less sensitive to the error of nuisance function estimators, satisfying a "global double robustness" property, and (2) its confidence intervals are often narrower, making it more powerful for determining the more accurate HTE estimator. 
+    Through extensive empirical study of the ACIC challenge benchmark datasets, we show that the relative error-based method more effectively identifies the better HTE estimator with statistical confidence, even with a moderately large test dataset or inaccurate nuisance estimators.
+\end{abstract}
+
+\section{INTRODUCTION}\label{sec:introduction}
+
+The estimation of heterogeneous treatment effects (HTE) under the Neyman-Rubin potential outcome framework is becoming increasingly prominent, driven by the need for tailored approaches in areas such as personalized medicine, personalized education, and personalized advertising 
+\parencite{splawa1990application, low2016comparing, lesko2007personalized, murphy2016handbook, bennett2007netflix}. 
+ 
+A variety of machine learning tools are being employed to estimate HTE, including LASSO, random forests, gradient boosting, and neural networks (see \cite{Kunzel4156} for a review).
+Despite a rich body of research on HTE estimation, evaluating and comparing these estimators remain less investigated.
+% There are two primary reasons to focus on the assessment of HTE estimators. 
+% Firstly, assessing an estimator's absolute accuracy predicts its performance on future data. 
+% \zg{Goal: determine the better one.}
+% \zg{Directly estimating the better one, and in particular, construct CI for that. Estimator is a simply difference, but CI is not...}
+Evaluating the performance of HTE estimators is essential for identifying a better candidate, especially considering the wide range of HTE estimation methods available.
+
+
+% including the degree of penalization in LASSO, tree sizes in random forests, number of layers in neural networks. 
+One significant challenge in assessing an HTE estimator arises from the inherent missingness in potential outcome model.
+Provided with a test dataset, standard evaluation of a predictor compares the actual observations with the predicted values.
+% This is feasible because the observations are unbiased samples of the predicted values. 
+However, in the potential outcome model, each observed response corresponds to one potential outcome (treatment or control), and the HTE---the difference between two potential outcomes---is not directly observed.
+
+
+To deal with the missingness of HTE, existing methods of HTE assessment typically involves additional steps performed on the test dataset, such as matching \parencite{rolling2014model} or nuisance function estimation \parencite{alaa2019validating}, to construct pseudo-observations of the HTE (\Cref{sec:literature}). 
+The additional steps could introduce substantial randomness, which may even dominate the actual error difference between two HTE estimators.
+% where the randomness of the error exceeds the magnitude of the gap of two HTE estimators.
+Simply ignoring this source of randomness and outputting the estimator with the lower point error estimate could result in incorrect decisions with a significant probability.
+% This observation motivates us to account for the uncertainty of the estimated errors in model comparison. 
+
+
+% Among existing methods of HTE assessment, one popular method considers the prediction of the observed outcomes \zg{Ref}.
+% Accurate predictions of both the treated and the control potential outcomes are sufficient for a precise estimation of the treatment effect, but not necessary.
+% In addition, there are approaches, like various \zg{tree-based methods of HTE}, yielding only the estimates of HTE but not the potential outcomes, and the outcome-prediction-based assessment method can not be applied.
+% Another line of methods first match treated and control units to create ``virtual twins'', and use the difference between the paired units' observed outcomes as pseudo-observations of the HTE \zg{Ref}. Nevertheless, the matching can be computationally intensive, and less viable when there is a significant imbalance (leaving part of the units unmatched and thus not used) between the treatment arm and the control arm. 
+
+% \subsection{Proposal overview and contributions}\label{sec:overview}
+
+In this paper, we advocate that the comparison of HTE estimators should account for the randomness introduced during the evaluation stage. 
+Rather than providing a point estimate of the error, we suggest constructing a confidence interval for the evaluation error, which contains the true error value with a pre-specified probability.
+We then demonstrate that the confidence interval for the absolute error of an HTE estimator (1) can be sensitive to nuisance function estimation on the test data; (2) for two similar HTE estimators, their absolute error confidence intervals do not account for the similarity of the HTE estimators and could be too wide to determine the more accurate estimator.
+To address the issues of uncertainty quantification for absolute errors, we propose to directly construct confidence intervals for the \textit{relative} error between two HTE estimators, rather than their individual absolute errors. 
+Methodologically, we derive an efficient estimator for the relative error using influence functions and characterize its asymptotic distribution to facilitate the confidence interval construction. 
+Theoretically, we prove that our confidence interval of relative errors is valid under weaker assumptions regarding the quality of the nuisance function estimators compared to that of absolute errors, and is guaranteed to be narrow when the HTE estimators for comparison are similar.
+Empirically, we show that the relative error confidence intervals achieves better coverage as well as are more powerful in identifying the better HTE estimator.
+Beyond the difference in conditional means, our proposal can also be generalized to compare estimators of a broader class of heterogeneous treatment effect estimands more suitable for quantifying treatment effects for non-continuous outcomes.
+
+
+\noindent\textbf{Contributions}. 
+\begin{itemize}
+    \item [1.] For comparing HTE estimators, we propose to account for the uncertainty in estimating the error of HTE estimators, which is largely ignored in the literature. Taking the uncertainty into consideration yields more trustworthy conclusion about the quality comparison of HTE estimators.
+    \item [2.] We suggest constructing confidence intervals of the relative error between two HTE estimators rather than their absolute errors. 
+    We propose a one-step correction estimator and the associated confidence interval for the relative error based on the efficient influence function, and prove the asymptotic validity and optimality of the proposed confidence interval. 
+    We prove the relative error estimator is less sensitive to nuisance function estimators, enjoys a global doubly robustness property, and is useful in selecting the better HTE estimator.
+
+    \item [3.] We provide off-the-shelf implementations of our relative error-based confidence intervals for HTE estimator comparison\footnote{All code has been deposited on GitHub, but access is restricted to maintain anonymity during the review process. Once the paper is accepted, we will release the address of the repository.}.
+\end{itemize}
+% On the simulated data, we observe the constructed interval of the relative error achieves the desirable coverage corresponding to controlling the probability of making incorrect conclusions.
+
+\noindent\textbf{Organization}.
+% The paper is organized as follows. 
+In \Cref{sec:background}, we present the problem formulation and provide a review of the relevant literature. 
+In \Cref{sec:absolute.error}, we provide the efficient estimator, confidence interval of absolute errors, and discuss the issues therein.
+In \Cref{sec:relative.error}, we focus on relative errors, presenting the efficient estimator and its associated confidence interval, and explain how the issues with absolute error confidence intervals are avoided.
+We also discuss the generalization of our proposal based on relative error to a broader class of causal estimands. 
+In \Cref{sec:simulation}, we compare the confidence intervals for absolute and relative errors on a benchmark dataset from the 2016 ACIC challenge. 
+In \Cref{sec:discussion}, we include future research directions. 
+All proofs are provided in the supplementary materials.
+
+
+\section{Formulation and background}\label{sec:background}
+
+\subsection{Potential outcome model}\label{sec:potential.outcome.model}
+
+We follow the Neyman-Rubin potential outcome model \parencite{rubin1974estimating} with a treatment condition and a control condition.
+% Suppose there are $n$ units.
+For unit $i$, there is a $d$-dimensional covariate vector $X_i$, a binary treatment assignment $W_i \in \{0, 1\}$, and two potential outcomes: $Y_i(0)$ under the control condition and $Y_i(1)$ under the treatment condition.
+We denote the observed outcome by $Y_i$, which equals $Y_i(1)$ if the unit is under treatment, and $Y_i(0)$, otherwise.
+We use $Z_i = (X_i, W_i, Y_i)$ to denote all data of unit $i$.
+We make the conventional assumptions of SUTVA, overlap, and unconfoundedness.
+% \begin{assumption}[Stable unit treatment value assumption (SUTVA)]
+%     The potential outcomes for any unit do not depend on the treatments assigned to other units. There are no different versions of each treatment level.
+% \end{assumption}
+
+% \begin{assumption}[Unconfoundedness]
+%     The assignment mechanism does not depend on potential outcomes:
+%     \begin{align*}
+%         (Y_i(1), Y_i(0)) \perp W_i \mid X_i.
+%     \end{align*}
+% \end{assumption}
+
+% \begin{assumption}[Overlap]\label{assu:overlap}
+%     There is a positive probability of receiving treatment and control for all individuals.
+% \end{assumption}
+
+
+To define our causal estimand, we introduce the super-population. 
+We assume individuals are sampled i.i.d. from a super-population, denoted by $\PP$.
+In particular, the covariates $X_i$ are sampled from an unknown distribution $\PP_X$. 
+Given the covariates $X_i$, a binary group assignment $W_i \in \{0, 1\}$ is generated from a Bernoulli distribution with mean $e(X_i)$ (also known as the propensity score). 
+We assume there exists $\eta > 0$  such that $\eta < e(x) < 1 - \eta$.
+The potential outcomes are modeled by
+\begin{align*}
+    Y_i(1) | X_i &= \mu_1(X_i) + \epsilon_i, \\
+    Y_i(0) | X_i &= \mu_0(X_i) + \epsilon_i,  
+\end{align*}
+where $\mu_0(x)$, $\mu_1(x)$ represent the conditional mean function of the control and the treatment group respectively, and $\epsilon_i$ denotes the error term, assumed to be zero-mean and independent of $X_i$. 
+The estimand HTE is defined as 
+\begin{align*}
+    \tau(x) = \EE\left[Y(1) - Y(0) \mid X = x\right] 
+    = \mu_1(x) - \mu_0(x),
+\end{align*}
+which can also be expressed as the difference of the two group conditional mean functions.
+
+
+\subsection{Evaluation task and absolute/relative error}\label{sec:error.definition}
+
+
+In this paper, we focus on the evaluation and comparison of the HTE estimators using a test dataset of size $n$ drawn from the super-population $\PP$.
+We use $\hat{\tau}_1(x)$, $\hat{\tau}_2(x)$ to denote HTE estimators derived independently of the test dataset.
+When there is only one HTE estimator, we drop the subscript and use $\hat{\tau}(x)$.
+We highlight that the HTE estimators are provided to us and the HTE estimation problem itself is not the focus of this paper.
+
+
+To quantify the accuracy of an HTE estimator $\hat{\tau}(x)$, the absolute error is defined as
+\begin{align}\label{defi:evaluation.error}
+    \phi(\hat{\tau}(x))
+    := \EE\left[(\hat{\tau}(X) - \tau(X))^2\right],
+\end{align}
+where the expectation is evaluated at the distribution $\PP_X$ of the covariates. 
+A smaller absolute error suggests a more accurate HTE estimator, and a zero error implies $\hat{\tau}(X) = {\tau}(X)$ with probability one.
+% Eq.~\eqref{defi:evaluation.error}  is a direct extension of the prediction error commonly used in regression.
+The relative error of two estimators $\hat{\tau}_1(x)$ and $\hat{\tau}_2(x)$ is quantified as the difference between their absolute errors 
+\begin{align}\label{defi:evaluation.error.relative}
+\begin{split}    
+    &\delta(\hat{\tau}_1, \hat{\tau}_2)
+    := \phi(\hat{\tau}_1(x)) - \phi(\hat{\tau}_2(x))  \\
+    =& \EE\left[\hat{\tau}_1^2(X) - \hat{\tau}_2^2(X) - 2(\hat{\tau}_1(X) - \hat{\tau}_2(X)) \tau(X) \right].
+\end{split}
+\end{align}  
+A negative $\delta(\hat{\tau}_1, \hat{\tau}_2)$ indicates that $\hat{\tau}_1(x)$ is more accurate; otherwise, $\hat{\tau}_2(x)$ is more accurate.
+In \Cref{rmk:DINA}, we consider the treatment effects defined on the natural parameter scale suitable for binary, count, and survival responses, and extend the results regarding Eq.~\eqref{defi:evaluation.error} to the corresponding errors.
+
+
+For standard predictor evaluation, absolute prediction errors are more commonly displayed than relative prediction errors.
+However, for HTE estimators, we have the perhaps surprising observation that the relative error can often be approximated more accurately.
+% and associated with a narrower confidence interval than the absolute counterpart. 
+Intuitively, this is because the relative error $ \delta(\hat{\tau}_1, \hat{\tau}_2)$ is linear in the unobserved $\tau(x)$, while the absolute error $\phi(\hat{\tau}(x))$ also depends on the second moment of $\tau(x)$, and estimating the first moment of $\tau(x)$ is relatively easier that of the second moment. 
+We provide rigorous characterizations and empirical comparison of the observation in the following sections.
+
+
+
+
+
+\subsection{Literature}\label{sec:literature}
+
+In this paper, we consider comparing HTE estimators with statistical confidence through relative error evaluation, which is different from the mainstream literature focusing on evaluating absolute errors without uncertainty quantification. 
+Nevertheless, we provide a brief overview of existing methods on assessing the absolute performance of an HTE estimator.
+One simple and common approach targets the observed response but not the treatment effect, and uses the standard prediction error of the response as the error measurement.
+However, an accurate predictor of the treatment effect may not necessarily be associated with precise response predictors \parencite{curth2023search}.
+Furthermore, for HTE estimators that directly estimate the difference without estimating the response, such as causal trees \parencite{athey2016recursive}, the response prediction error can not be computed.
+Another thread of assessment approaches involves creating ``virtual twins'' by matching treated and control units and use the response difference of a pair as a pseudo-observation of the treatment effect \parencite{rolling2014model}.
+% zijun gao
+However, matching is often computationally intensive \parencite{rosenbaum1989optimal}. Moreover, the complexity of matching algorithms makes it difficult to analyze statistically and perform downstream inference.
+A third thread of methods estimate the HTE on the test dataset and compare it with the provided HTE estimators, which we refer to as plug-in estimators. This can be problematic because the evaluation error is affected by the error from the HTE estimator obtained from the test set, a nuisance function in this causal assessment task.
+To reduce the impact of the error of the HTE estimator from the test data, bias correction methods based on influence functions have been developed \parencite{alaa2019validating}. 
+The method is related to ours, but it does not address the uncertainty quantification of the estimated error, and their influence function is different from our efficient proposal (comparison in \Cref{sec:simulation}).
+
+
+Our approach for drawing inference on relative error evaluation builds on the rapidly advancing body of work in semi-parametrics, particularly influence functions \parencite{van2000asymptotic, robins2008higher} (see \cite{kennedy2022semiparametric} for a review).  
+In many causal problems, the causal quantity of interest is typically a scalar or low-dimensional, but the model contains infinite dimensional nuisance functions, making it a semi-parametric problem.
+The influence function is a powerful tool for constructing the so-called one-step correction estimators that is more robust to the error of the estimators of nuisance components.
+Given a specific function class that the true distribution belongs to, the estimator that attains the minimal asymptotic variance is known as the semi-parametrically efficient estimator, and the corresponding influence function is referred to as the efficient influence function. Despite the appealing statistical properties of efficient influence functions, the derivation of efficient influence functions is often case-specific, with only a few general rules and standard examples available \parencite{kennedy2022semiparametric}.
+
+
+
+\section{INFERENCE OF ABSOLUTE ERROR AND ISSUES}\label{sec:absolute.error}
+
+% In this section, we begin by discussing the estimation and inference of the absolute error using influence functions. We then highlight the undesirable properties of the absolute error estimation, which leads to our proposal of using relative error in \Cref{sec:relative.error}.
+
+
+\subsection{Absolute error inference via influence functions}\label{sec:absolute.error.estimation}
+% Though XXX has developed a one-step correction estimator for $ \phi(\hat{\tau})$ in~\eqref{defi:evaluation.error} using the influence function in (XXX, Theorem 2), 
+Provided with an HTE estimator $\hat{\tau}(x)$,
+we adopt the following influence function for $\phi(\hat{\tau})$, 
+\begin{align}\label{eq:EIF}
+\begin{split}    
+    &\psi(\phi(\hat{\tau}); Z)
+    :=  \left((\mu_1(X) - \mu_0(X)) - \hat{\tau}(X)\right)^2 \\
+    &+ 2\left((\mu_1(X) - \mu_0(X)) - \hat{\tau}(X)\right)\\ 
+    &\cdot \left(\frac{W(Y - \mu_1(X))}{e(X)} - \frac{(1-W)(Y - \mu_0(X))}{1-e(X)} \right) - \phi(\hat{\tau}).
+\end{split}
+\end{align}
+Our derivation of the efficient influence function aligns with the variable importance measurement for heterogeneous treatment effects \parencite{hines2022variable}.
+% We use the influence function for common causal quantities, such as the weighted average treatment effect, and apply the principles of influence function derivation for a linear combination of causal estimands and that for a function of a causal estimand.
+The one-step correction estimator associated with \eqref{eq:EIF} is
+\begin{align}\label{eq:estimator.absolute.error}
+\begin{split}    
+    &\hat{\phi}(\hat{\tau})
+    % := \frac{1}{n} \sum_{i=1}^n \hat{\psi}(\phi(\hat{\tau}); Z_i)\\
+    = \frac{1}{n} \sum_{i=1}^n \left((\tilde{\mu}_1(X_i) - \tilde{\mu}_0(X_i)) - \hat{\tau}(X_i)\right)^2  \\
+    &+ 2\left((\tilde{\mu}_1(X_i) - \tilde{\mu}_0(X_i)) - \hat{\tau}(X_i)\right) \\
+    &\cdot \left(\frac{W_i(Y_i - \tilde{\mu}_1(X_i))}{\tilde{e}(X_i)} - \frac{(1-W_i)(Y_i - \tilde{\mu}_0(X_i))}{1-\tilde{e}(X_i)} \right).
+\end{split}
+\end{align}
+Here $\tilde{\mu}_0(x)$, $\tilde{\mu}_1(x)$, and $\tilde{e}(x)$ are estimators of the nuisance functions ${\mu}_0(x)$, ${\mu}_1(x)$, and $e(x)$ obtained on the test dataset\footnote{We use cross-fitting \parencite{chernozhukov2018double} to ensure the independence of $\tilde{\mu}_0(x)$, $\tilde{\mu}_1(x)$, and $\tilde{e}(x)$ used by $\hat{\phi}_i(\hat{\tau})$ are independent of $Y_i$, $W_i$, $X_i$ therein when computing $\hat{\phi}(\hat{\tau})$.}.
+The variance of the estimated evaluation error, denoted by ${V}(\hat{\phi}(\hat{\tau}))$, can be approximated by the empirical variance of $\hat{\psi}(\phi(\hat{\tau}); Z_i)$, denoted by $\hat{V}(\hat{\phi}(\hat{\tau}))$.
+The entire algorithm is summarized in \Cref{algo:absolute.error}.
+% When provided with two HTE estimators $\hat{\tau}_1(x)$, $\hat{\tau}_2(x)$, we construct the two confidence intervals... 
+
+
+% The theorem below characterize the asymptotic distribution of $\hat{\phi}(\hat{\tau})$, which provides the theoretical guarantee of the validity of the confidence interval~\eqref{eq:CI.absolute.error}.
+\begin{theorem}\label{theo:absolute.error}
+    Assume the following conditions.
+    \begin{itemize}
+        \item [(a)] $Y$ is bounded, $\eta < e(X) < 1 - \eta$ for some $\eta > 0$.
+        \item [(b)] The nuisance function estimators $\tilde{\mu}_{0}(x)$, $\tilde{\mu}_{1}(x)$, $\tilde{e}(x)$ obtained from the test data\footnote{When cross-fitting is used to compute the absolute error, we require (b) to hold for all $\tilde{\mu}_{0}^{-k}(x)$, $\tilde{\mu}_{1}^{-k}(x)$, $\tilde{e}^{-k}(x)$, $1 \le k \le K$.} satisfy $\EE[(\tilde{\mu}_{1}(X) - \mu_1(X))^2]^{1/2}$, $\EE[(\tilde{\mu}_{0}(X) - \mu_0(X))^2]^{1/2}$, $\EE[(\hat{e}(X) - e(X))^2]^{1/2} = o_p(n^{-1/4})$, $1 \le k \le K$. 
+        \item [(c)] The true absolute error $\phi(\hat{\tau}) > 0$.
+    \end{itemize}
+    Then $\hat{\phi}(\hat{\tau})$, $\hat{V} (\hat{\phi}(\hat{\tau}))$ of \Cref{algo:absolute.error} satisfy
+    \begin{align*}
+        \frac{\hat{\phi}(\hat{\tau}) - {\phi}(\hat{\tau})}{\sqrt{n\hat{V}(\hat{\phi}(\hat{\tau}))}}
+        \stackrel{d}{\to} \calN(0,1).
+    \end{align*}
+    In addition, the estimator $\hat{\phi}(\hat{\tau})$ is semi-parametrically efficient regarding the nonparametric model.
+\end{theorem}
+
+
+The proof is provided in the appendix.
+% In \Cref{sec:relative.error}, we show the doubly robust property of the relative error described in is even more compelling.
+Our influence function and the estimator is different from that of \cite[Theorem 2]{alaa2019validating}.
+Since our proposal $\hat{\phi}(\hat{\tau})$ is semi-parametrically efficient, the confidence interval is proved to be no wider than that in \cite{alaa2019validating} (see \Cref{sec:simulation} for numerical evidence).
+% as it only requires the product of $|(\tilde{\mu}_{1}^{-k}(X) - \mu_1(X))(\hat{e}^{-k}(X) - e(X))|$ and $ |(\tilde{\mu}_{0}^{-k}(X) - \mu_0(X))(\hat{e}^{-k}(X) - e(X))| $ to be of order $ n^{-1/2}$.
+% and is less sensitive to the error in $\tilde{\mu}_{0}^{-k}(X)$ and $\tilde{\mu}_{1}^{-k}(X)$.
+% both $\tilde{\mu}_{0}^{-k}(X)$ and $\tilde{\mu}_{1}^{-k}(X)$ underfit, leading to $\tilde{\mu}_{1}^{-k}(X) - \tilde{\mu}_{0}^{-k}(X) \approx 0$. 
+% This result in a significant downward bias in the absolute error estimator. 
+% In contrast, the relative error estimator remains nearly unbiased since $\hat{e}^{-k}(X)$ is accurate and $(\tilde{\mu}_{0}^{-k}(X) - \mu_0(X))(\hat{e}^{-k}(X) - e(X))$ is small in magnitude.
+According to \Cref{theo:absolute.error}, the convergence of $\hat{\phi}(\hat{\tau})$ at the parametric rate of $ n^{-1/2} $ only requires all nuisance function estimators to converge at a rate no slower than $ n^{-1/4}$, that is the locally doubly robust property \parencite{chernozhukov2018double}.
+% meaning that $\hat{\phi}(\hat{\tau})$ is resilient to the errors of the nuisance function estimators around their true values.
+
+
+Based on the $1-\alpha$ confidence interval\footnote{The $1-\alpha$ confidence interval of the absolute error takes the form 
+\begin{align}\label{eq:CI.absolute.error}
+\begin{split}    
+    &[\underline{\hat{\phi}}(\hat{\tau}; 1-\alpha), ~\overline{\hat{\phi}}(\hat{\tau}; 1-\alpha)]\\
+    :=& \left[\hat{\phi}(\hat{\tau}) - q_{1-\alpha/2} \hat{V}^{1/2}(\hat{\phi}(\hat{\tau})), \right.\\
+    &\left.\hat{\phi}(\hat{\tau}) + q_{1-\alpha/2} \hat{V}^{1/2}(\hat{\phi}(\hat{\tau}))\right],
+\end{split}
+\end{align} 
+where $q_{1-\alpha/2}$ denotes the $1-\alpha/2$ quantile of a standard normal random variable.
+} of the absolute errors for two HTE estimators $\hat{\tau}_1$, $\hat{\tau}_2$, if the absolute error interval of $\hat{\tau}_1$ lies entirely to the right of that of $\hat{\tau}_2$, we can conclude with at least $1-2\alpha$ confidence that the estimation error of $\hat{\tau}_1$ is greater than that of $\hat{\tau}_2$, and therefore $\hat{\tau}_2$ should be selected. 
+If the two intervals overlap, we are unable to confidently decide which estimator is more accurate.
+
+
+\subsection{Issues of absolute error}\label{sec:absolute.error.issue}
+
+% Despite the results in \Cref{theo:absolute.error}, we highlight several undesirable aspects of the absolute error approach. In \Cref{sec:relative.error} below, we demonstrate how relative error estimation can address these issues.
+\begin{itemize}
+    \item [(i)] Sensitivity to errors of nuisance function estimators. 
+    In \Cref{fig:inaccurate nuisance function estimator}, errors in $\tilde{\mu}_1(x)$, $\tilde{\mu}_0(x)$, $\tilde{e}(x)$ can introduce significant bias into the absolute error estimator, even resulting in negative estimates conflicting with the fact that error should always be non-negative. 
+    % Rather than requiring $\tilde{\mu}_0(x)$, $\tilde{\mu}_1(x)$, and $\tilde{e}(x)$ to be estimated at the rate $n^{-1/4}$, respectively, it would be preferable if the condition can be relaxed to only the products of the errors $(\tilde{\mu}_w(x) - \mu_w(x)) (\tilde{e}(x) - e(x))$, for $w \in \{0,1\}$, are required to converge at the rate $n^{-1/2}$.
+    
+    \item [(ii)] Correlation across the estimated absolute errors of different HTE estimators.
+    The estimated absolute error of different HTE estimators are correlated because they are based on the same validation data and share the nuisance function estimators.
+    \Cref{theo:absolute.error} does not directly address the correlation between the estimated absolute errors.
+
+    \item [(iii)] Degenerate null. Condition (c) of \Cref{theo:absolute.error} indicates the asymptotic distribution may be invalid for the degenerate case $\PP_X(\hat{\tau}(X) = \tau(X)) = 1$. 
+    One solution is analyzing the asymptotic distribution of the higher-order pathwise derivatives of $\phi(\hat{\tau})$ to derive the asymptotic distribution of \eqref{eq:estimator.absolute.error} when $\tau(x) = \hat{\tau}(x)$, which remains generally an open problem \parencite{hines2022variable, hudson2023nonparametric}.
+    % Similar degeneracy issues have been encountered in the study of variable importance \parencite{hines2022variable}, where their estimand is expressed as the difference between two quantities and a sample splitting procedure can be employed albeit with some loss of efficiency. However, in our case, there does not appear to be a straightforward way to decompose the quantity in a similar manner.
+    % As illustrated later in \Cref{sec:relative.error}, the degeneracy is less an issue for the relative error.
+
+\end{itemize}
+
+
+\begin{figure}[ht]
+        \centering
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/inaccurate_nuisance_function_estimator_absolute_LASSO.pdf}
+        \end{minipage}
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/inaccurate_nuisance_function_estimator_absolute_xgboost.pdf}
+        \end{minipage}
+        \hspace{0.02cm}
+            \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/inaccurate_nuisance_function_estimator_relative.pdf}
+        \end{minipage}
+        \\ \centering{\hspace{1.5cm} Absolute error \hspace{1.5cm} Relative error}
+        \caption{
+        \small 
+        Comparison of estimated absolute and relative errors with inaccurate nuisance function estimators.
+        We compare two HTE estimators: LASSO and Boosting.
+        We implement three approaches to evaluate the absolute and the relative errors: (1) the plug-in method, (2) the estimator by \cite{alaa2019validating} (IF), and (3) our proposal (EIF). 
+        % (Our proposal relative error estimator agrees with that based on the plug-in absolute error estimator, and thus we merge the two methods in the third panel.)
+        % In all methods, cross-fitting is used and the nuisance function estimators are shared. 
+        % All evaluation methods use the same nuisance function estimators derived from the test dataset, which were intentionally designed to underfit the data and thus inaccurate.
+        % The propensity score is estimated by taking the mean of the treatment assignments. The outcome regression functions $ \mu_0(x) $ and $ \mu_1(x) $ are both estimated using gradient boosting to the outcomes of the control and treatment group data. 
+        % However, to introduce deliberate inaccuracies in the nuisance functions, we limit the number of boosting rounds, leading to underfitting in the estimators for $ \mu_0(x) $ and $ \mu_1(x) $.
+        For each evaluation, we plot the estimated error as well as the $90\%$ confidence interval.
+        % The red dashed line in the figure represents the true absolute/relative error.
+        The IF and EIF estimators for absolute error are negative, which conflicts with the non-negative nature of prediction errors. 
+        Only the confidence interval of the EIF relative error correctly captures the true value (third panel, orange).
+        }
+    \label{fig:inaccurate nuisance function estimator}
+\end{figure}
+
+
+% We explain the reasons why the asymptotic distribution of $\phi(\hat{\tau})$ in \Cref{algo:absolute.error} is violated if $\hat{\tau}(x) = \tau(x)$.
+% Explicitly, $\hat{\phi}(\hat{\tau})$ satisfies
+% \begin{align}\label{eq:IF.expansion}  
+%     \hat{\phi}(\hat{\tau})
+%     = {\phi}(\hat{\tau}) + \frac{1}{n} \sum_{i=1}^n \left( \hat{\phi}_i(\hat{\tau}) - {\phi}(\hat{\tau}) \right) + R_n, \quad R_n =  o_p(n^{-1/2}).
+% \end{align}
+% When $\phi(\hat{\tau}) = 0$, under the property (b) of \Cref{theo:absolute.error}, $|(\tilde{\mu}_{1}^{-k}(x) - \tilde{\mu}_{0}^{-k}(x)) - \hat{\tau}(x)|$ is of order $n^{-1/4}$, and
+% \begin{align*}
+%     &\frac{1}{n} \sum_{i=1}^n \left((\tilde{\mu}_1(X) - \tilde{\mu}_0(X)) - \hat{\tau}(X)\right)^2 = o_p(n^{-1/2}), \\
+%     &\frac{1}{n} \sum_{i=1}^n \left((\tilde{\mu}_1(X) - \tilde{\mu}_0(X)) - \hat{\tau}(X)\right) \cdot \left(\frac{W(Y - \tilde{\mu}_1(X))}{\tilde{e}(X)} - \frac{(1-W)(Y - \tilde{\mu}_0(X))}{1-\tilde{e}(X)} \right) = o_p(n^{-1/2}),
+% \end{align*}
+% which could be of the same order of the remainder term $R_n$. As a result, the asymptotic distribution in \Cref{theo:absolute.error} derived by ignoring $R_n$ is not valid.
+% As illustrated later in \Cref{sec:relative.error}, the degeneracy is less an issue for the relative error.
+
+% We discuss several solutions in dealing with  $\phi(\hat{\tau}) = 0$.
+% One possibility is testing $\tau(x) = \hat{\tau}(x)$ and apply \Cref{theo:absolute.error} only if the null hypothesis is rejected.
+% Testing an HTE function is challenging and of independent interest, and we do not pursue this further here.
+% Alternatively, one can analyze the asymptotic distribution of the higher-order pathwise derivatives of $\phi(\hat{\tau})$ and derive the asymptotic distribution of \eqref{eq:estimator.absolute.error} when $\tau(x) = \hat{\tau}(x)$. 
+% However, this remains generally an open problem {Carone2018, Hudson2023}.
+% Similar degeneracy issues have been encountered in the study of variable importance, where the target is expressed as the difference between two quantities. In that context, the influence function of each individual quantity remains non-degenerate, even if the influence function of their difference is degenerate, allowing for the application of a sample splitting procedure, albeit with some loss of efficiency. However, in our case, there does not appear to be a straightforward way to decompose the quantity in a similar manner.
+% % Moreover, in our case, if $\hat{\tau}(x)$ is different from $\tau(x)$ but close to $\hat{\tau}^{-k}(x) = \tilde{\mu}_{1}^{-k}(x) - \tilde{\mu}_{0}^{-k}(x)$, perhaps due to over-regularization applied to both $\hat{\tau}(x)$ and $\hat{\tau}^{-k}(x)$, then the CI will be too narrow and the CI invalid. This is also referred to as \zg{homopoly in XXX}.
+
+
+\section{INFERENCE OF RELATIVE ERROR}\label{sec:relative.error}
+
+% In this section, we focus on the estimation and inference of relative error based on influence functions. We then compare the relative error estimation with the absolute counterpart regarding the issues in \Cref{sec:absolute.error.issue}.
+
+
+\subsection{Relative error estimation via influence functions}\label{sec:relative.error.estimation}
+
+Provided with two HTE estimators $\hat{\tau}_1(x)$, $\hat{\tau}_2(x)$, we adopt the following influence function for the relative error $\delta(\hat{\tau}_1, \hat{\tau}_2)$,
+% Based on \Cref{eq:EIF} and the principle that the influence function of two causal quantities is the difference of the their influence functions , we arrive at
+\begin{align}\label{eq:EIF.relative} 
+\begin{split}    
+    &\psi(\delta(\hat{\tau}_1, \hat{\tau}_2); Z)
+    := \hat{\tau}_1^2(X) - \hat{\tau}_2^2(X) \\
+    &- 2\left(\hat{\tau}_1(X) - \hat{\tau}_2(X)\right) \cdot 
+    \left(\frac{W(Y - \mu_1(X))}{e(X)} + \mu_1(X) \right.\\
+    &\left.- \frac{(1-W)(Y - \mu_0(X))}{1-e(X)} - \mu_0(X)\right)
+    - \delta(\hat{\tau}_1, \hat{\tau}_2).
+\end{split}
+\end{align}
+The implied one-step correction estimator is
+\begin{align}\label{eq:estimator.relative.error}
+\begin{split}    
+    &\hat{\delta}(\hat{\tau}_1, \hat{\tau}_2)
+    % :=\frac{1}{n} \sum_{i=1}^n  \hat{\psi}(\delta(\hat{\tau}_1, \hat{\tau}_2); Z_i)
+    = \frac{1}{n} \sum_{i=1}^n \hat{\tau}_1^2(X_i) - \hat{\tau}_2^2(X_i) \\
+    &- 2\left(\hat{\tau}_1(X_i) - \hat{\tau}_2(X_i)\right) \cdot \left(\frac{W_i(Y_i - \tilde{\mu}_1(X_i))}{\tilde{e}(X_i)} + \tilde{\mu}_1(X_i) \right.\\
+    &\left. - \frac{(1-W_i)(Y_i - \tilde{\mu}_0(X_i))}{1-\tilde{e}(X_i)} - \tilde{\mu}_0(X_i)\right).
+\end{split}
+\end{align}
+The algorithm can be summarized as \Cref{algo:absolute.error} combined with \eqref{eq:estimator.relative.error}.
+
+
+Based on the $1-\alpha$ confidence interval of the relative error, if the interval lies entirely to the right of zero, we can conclude with at least $1-\alpha$ confidence that the estimation error of $\hat{\tau}_1$ is greater than that of $\hat{\tau}_2$, and therefore $\hat{\tau}_2$ should be selected. 
+If the interval lies entirely to the left of zero, we can conclude with the same confidence that the estimation error of $\hat{\tau}_2$ is greater than that of $\hat{\tau}_1$, and $\hat{\tau}_1$ should be chosen. 
+If the interval contains zero, we are unable to confidently decide which estimator is superior.
+
+
+\begin{algorithm}\caption{Absolute (relative) error}\label{algo:absolute.error}
+    \begin{algorithmic}[1]
+    \STATE \textbf{Input}: An HTE estimator $\hat{\tau}(x)$, test data $Z_i = (X_i, W_i, Y_i)$, $1 \le i \le n$, methods of estimating nuisance functions $\mu_0(x)$, $\mu_1(x)$, $e(x)$, number of folds $K$ for cross-fitting, confidence level $1-\alpha$.
+    \STATE Randomly split the test dataset into $K$ folds of approximately equal size. Denote the $k$-th fold by $D_k$.
+
+    \FOR{$k = 1,\ldots,K$}
+    
+    \STATE Apply the nuisance function estimators to test folds $\cup_{j \neq k} D_j$ and obtain $\tilde{\mu}_{0}^{-k}(x)$, $\tilde{\mu}_{1}^{-k}(x)$, and $\tilde{e}^{-k}(x)$.
+
+    \ENDFOR
+    
+    \STATE Compute the one-step correction estimator based on \Cref{eq:estimator.absolute.error} (\Cref{eq:estimator.relative.error}). 
+    % For $i \in D_k$,
+    % \begin{align*} 
+    %     \hat{\psi}_i^+(\phi(\hat{\tau}); Z_i) :=& \left((\tilde{\mu}_1^{-k}(X_i) - \tilde{\mu}_0^{-k}(X_i)) - \hat{\tau}(X_i)\right)^2 \\
+    %     &+ 2\left((\tilde{\mu}_1^{-k}(X_i) - \tilde{\mu}_0^{-k}(X_i)) - \hat{\tau}(X_i)\right) \cdot \left(\frac{W_i(Y_i - \tilde{\mu}_1^{-k}(X_i))}{\tilde{e}^{-k}(X_i)} - \frac{(1-W_i)(Y_i - \tilde{\mu}_0^{-k}(X_i))}{1-\tilde{e}^{-k}(X_i)} \right),
+    % \end{align*}
+    %  and take the average
+    %  \begin{align*}
+    %     \hat{\phi}(\hat{\tau}) :=& \frac{1}{n} \sum_{k=1}^K \sum_{i \in D_k} \hat{\psi}_i^+(\phi(\hat{\tau}); Z_i).
+    % \end{align*}
+    % Here $\hat{\psi}_i^+(\phi(\hat{\tau}); Z_i) $ and $\hat{\psi}_i(\phi(\hat{\tau}); Z_i)$ differ in a constant.
+    
+    \STATE Compute the estimator of the variance $\hat{V}(\hat{\phi}(\hat{\tau}))$ ($\hat{V}(\hat{\delta}(\hat{\tau}_1, \hat{\tau}_2))$).
+    % \begin{align*}
+    %    \hat{V}(\hat{\phi}(\hat{\tau})) :=& \frac{1}{n} \sum_{i = 1}^n \left(\hat{\psi}_i^+(\phi(\hat{\tau}); Z_i)  -  \hat{\phi}(\hat{\tau}) \right)^2.
+    % \end{align*}
+    
+    \STATE \textbf{Output}: Estimated error $\hat{\phi}(\hat{\tau})$, the estimator of its variance $\hat{V}(\hat{\phi}(\hat{\tau}))$, $1-\alpha$ confidence interval $\left[\hat{\phi}(\hat{\tau}) - q_{1-\alpha/2} \hat{V}^{1/2}(\hat{\phi}(\hat{\tau})), ~\hat{\phi}(\hat{\tau}) + q_{1-\alpha/2} \hat{V}^{1/2}(\hat{\phi}(\hat{\tau}))\right]$.
+
+    \end{algorithmic}
+\end{algorithm}
+
+
+% Similar to \Cref{theo:absolute.error}, we characterize the asymptotic distribution of $\hat{\delta}(\hat{\tau}_1, \hat{\tau}_2)$.
+% The proof is provided in the appendix.
+\begin{theorem}\label{theo:relative.error}
+    Assume the following conditions.
+    \begin{itemize}
+        \item [(a)] $Y$ is bounded, $\eta< e(X) < 1 - \eta$ for some $\eta > 0$.
+        \item [(b)] The nuisance function estimators obtained from the test data satisfy $\|\tilde{\mu}_{1}(X) - \mu_1(X)\|_2$, $\|\tilde{\mu}_{0}(X) - \mu_0(X)\|_2$, $\|\hat{e}(X) - e(X)\|_2 = o_p(1)$, and $\EE[|(\tilde{\mu}_{1}(X) - \mu_1(X))(\hat{e}(X) - e(X))|]$, $\EE[|(\tilde{\mu}_{0}(X) - \mu_0(X))(\hat{e}(X) - e(X))|] = o_p(n^{-1/2})$.
+        \item [(c)] The true relative error $\EE[(\hat{\tau}_1(X) - \hat{\tau}_2(X))^2] \neq 0$.
+    \end{itemize}
+    Then $\hat{\delta}(\hat{\tau}_1, \hat{\tau}_2)$, $\hat{V}(\hat{\delta}(\hat{\tau}_1, \hat{\tau}_2))$ of \Cref{algo:absolute.error} satisfy
+    \begin{align*}
+        \frac{ \hat{\delta}(\hat{\tau}_1, \hat{\tau}_2) -     {\delta}(\hat{\tau}_1, \hat{\tau}_2)}{\sqrt{n\hat{V}(    \hat{\delta}(\hat{\tau}_1, \hat{\tau}_2))}}
+        \stackrel{d}{\to} \calN(0,1).
+    \end{align*}
+    The estimator $\hat{\delta}(\hat{\tau}_1, \hat{\tau}_2)$ is efficient regarding the nonparametric model.
+
+    Further assume
+      \begin{itemize}
+        \item [(d)] $\hat{e}(x) = e(x)$ or $\tilde{\mu}_{1}(x) = \mu_1(x)$, $\tilde{\mu}_{0}(x) = \mu_0(x)$.
+    \end{itemize}
+    Then the estimator $\hat{\delta}(\hat{\tau}_1, \hat{\tau}_2)$ is unbiased, i.e., $\EE\left[\hat{\delta}(\hat{\tau}_1, \hat{\tau}_2)\right]
+        = {\delta}(\hat{\tau}_1, \hat{\tau}_2)$.
+\end{theorem}
+
+
+
+\subsection{Advantages of relative error}\label{sec:relative.error.advantage}
+
+% We compare \Cref{theo:relative.error} and \Cref{theo:absolute.error}, and discuss how the estimation and inference of relative errors avoids the issues of absolute errors in \Cref{sec:absolute.error.issue}.
+
+\begin{itemize}
+    \item [(i)] Condition (b) of \Cref{theo:relative.error} only requires the nuisance function estimators to be consistent and the product of the error of $\hat{e}(x)$ and $\tilde{\mu}_{1}(x)$, $\tilde{\mu}_{0}(x)$ to converge at $n^{-1/2}$.
+    This condition of relative error is strictly weaker than the condition (b) of the absolute error in \cref{theo:absolute.error}.
+    % \Cref{fig:inaccurate nuisance function estimator} demonstrates numerically that the  \cref{theo:absolute.error} is more susceptible to inaccurate nuisance function estimators.
+    Particularly, when the treatment assignment is known, such as in randomized trials, then the validity of \Cref{theo:relative.error} only requires the consistency of $\tilde{\mu}_{1}(x)$, $\tilde{\mu}_{0}(x)$.
+
+
+    In addition, condition (d) implies that the relative error estimator satisfies a global doubly robust property, meaning that if $\hat{e}(x) = e(x)$, then $\hat{\mu}_1(x)$ and $\hat{\mu}_0(x)$ can be arbitrary, even inconsistent, and the estimated relative error will still be unbiased. Similarly, the relative error remains unbiased if $\hat{\mu}_1(x)$ and $\hat{\mu}_0(x)$ are correct, regardless of the estimator $\hat{e}(x)$ used.
+    This property does not hold for the absolute error estimator.
+
+    
+    \item [(ii)] Relative error estimators directly estimates and performs inference for the relative difference between two models' performance, rather than dealing with each model's error separately and then comparing them. 
+    Therefore, unlike the absolute error estimation approach, there is no need to handle the dependency between two absolute error confidence intervals.
+    
+    \item [(iii)] Degenerate null. 
+    Condition (c) of \Cref{theo:absolute.error} $\hat{\tau}(x) \neq \tau(x)$ is hard to validate or falsify, since $\tau(x)$ is not directly observed and needs to be estimated.
+    In contrast, condition (c) of \Cref{theo:relative.error} $\hat{\tau}_1(x) \neq \hat{\tau}_2(x)$ can be verified straightfowardly, since $\hat{\tau}_1(x)$ and $\hat{\tau}_2(x)$ are provided functions and there is no extra estimation required.
+
+
+    \item [(iv)] The relative error is more effective in identifying the better HTE estimators compared to the absolute error when $\hat{\tau}_1$, $\hat{\tau}_2$ are similar (see \Cref{fig:similar HTE estimator} for a numerical example).
+    % To determine the better estimator based on the confidence intervals of absolute errors, we can conclude $\hat{\tau}_1$ is better if $\underline{\hat{\phi}}(\hat{\tau}_1; 1 - \alpha/2) > \overline{\hat{\phi}}(\hat{\tau}_2; 1 - \alpha/2)$.
+    When $\hat{\tau}_1(X)$ and $\hat{\tau}_2(X)$ are similar, the confidence intervals for the absolute errors of $\hat{\tau}_1(X)$ and $\hat{\tau}_2(X)$ can still be wide, and the absolute error confidence intervals are too wide to be informative of which estimator is better.
+    In contrast, the width of the confidence interval for $\hat{\delta}(\hat{\tau}_1, \hat{\tau}_2)$ is proportional to $\sqrt{\EE[(\hat{\tau}_1(X) - \hat{\tau}_2(X))^2]}$, which we prove in the appendix, and the confidence interval of the relative error can still be sufficiently narrow to reliably identify the more accurate estimator.   
+\end{itemize}
+
+\begin{figure}[ht]
+         \centering
+        \vspace{-0.5cm}
+        \begin{minipage}{0.45\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/similar_HTE_estimator_LASSO.pdf}
+        \end{minipage}
+        \vspace{-0.5cm}
+        \caption{
+        \small
+        Relative error evaluation estimators are more effective in determining the better one of two similar HTE estimators.
+        We consider two similar HTE estimators using LASSO for nuisance function estimation which only differ in the regularization hyperparameter. 
+        For evaluation methods, see the caption of \Cref{fig:inaccurate nuisance function estimator}.
+        % We consider the IF \parencite{alaa2019validating}, EIF (our proposal) absolute, relative error confidence intervals.
+        The $90\%$ absolute error confidence intervals of both IF and EIF are too wide to distinguish the two HTE estimators, while the confidence interval of the relative error estimator is significantly narrower and find the better estimator $\hat{\tau}_2$ (the true relative error is indicated in dark red).
+        IF's relative error confidence interval does not contain the true relative error.
+        }
+    \label{fig:similar HTE estimator}
+\end{figure}
+
+
+\subsection{Beyond difference in conditional means}\label{rmk:DINA}
+
+For responses generated from an exponential family or the Cox model, such as when $ Y \mid X $ follows a Poisson distribution, the difference in the natural parameter functions between the treatment and the control has been proposed as the treatment effect estimand \parencite{gao2022DINA}.
+The difference in natural parameter functions is better suited for modeling covariate dependence, as transforming to the natural parameter scale eliminates support constraints.
+Let $\eta(\cdot)$ be the link function transforming the conditional mean to the natural parameter scale, the estimand is 
+\begin{align*}
+    \tau(x) := \eta(E[Y(1) \mid X = x]) - \eta(E[Y(0) \mid X = x]).
+\end{align*} 
+In the appendix, we similarly define the absolute error~\eqref{defi:evaluation.error}, the relative error~\eqref{defi:evaluation.error.relative}, 
+% \begin{align*}
+%     &\hat{\phi}(\hat{\tau})
+%     := \frac{1}{n} \sum_{i=1}^n \left((\tilde{\eta}_1(X_i) - \tilde{\eta}_0(X_i)) - \hat{\tau}(X_i)\right)^2  \\
+%     &+ 2\left((\tilde{\eta}_1(X_i) - \tilde{\eta}_0(X_i)) - \hat{\tau}(X_i)\right) \cdot \left(\frac{W_i\tilde{\eta}'_1(X_i)(Y_i - \tilde{\mu}_1(X_i))}{\tilde{e}(X_i)} - \frac{(1-W_i)\tilde{\eta}'_0(X_i)(Y_i - \tilde{\mu}_0(X_i))}{1-\tilde{e}(X_i)} \right),
+% \end{align*}
+and derive the efficient one-step correction estimators. 
+% \begin{align*}    
+%     &\hat{\phi}(\delta(\hat{\tau}_1, \hat{\tau}_2))
+%     := \frac{1}{n} \sum_{i=1}^n \hat{\tau}_1^2(X_i) - \hat{\tau}_2^2(X_i) - 2\left(\hat{\tau}_1(X_i) - \hat{\tau}_2(X_i)\right)\\
+%     & \cdot \left(\frac{W_i \tilde{\eta}'_1(X_i) (Y_i - \tilde{\mu}_1(X_i))}{\tilde{e}(X_i)} + \tilde{\eta}_1(X_i)- \frac{(1-W_i)\tilde{\eta}'_0(X_i)(Y_i - \tilde{\mu}_0(X_i))}{1-\tilde{e}(X_i)} - \tilde{\eta}_0(X_i)\right).
+% \end{align*}
+% Here $\tilde{\mu}_1(x)$, $\tilde{\mu}_0(x)$ are estimated nuisance mean functions, and $\tilde{\eta}_1(x)$, $\tilde{\eta}_0(x)$ are estimated natural parameter functions.
+The estimators recover \eqref{eq:estimator.absolute.error} and \eqref{eq:estimator.relative.error} when the link function $\eta(\cdot)$ is identity. 
+In the appendix, we also present analogous results to \Cref{theo:absolute.error} and \Cref{theo:relative.error}.
+The relative error of DINA maintains the advantages in \Cref{sec:relative.error.advantage}.
+
+
+
+\section{HYPOTHETICAL REAL DATA ANALYSIS}\label{sec:simulation}
+
+The ACIC 2016 competition dataset \parencite{dorie2019automated}, derived from the real-world Collaborative Perinatal Project \parencite{niswander1972women}, is used as a benchmark dataset for HTE estimation and related tasks. 
+The dataset includes $55$ real variables of various types with natural associations. 
+Treatment assignments and potential outcomes are generated using a variety of models. 
+Therefore, the true $\mu_0(x)$, $\mu_1(x)$ and thus true $\tau(x)$ are known.
+We select four representative scenarios varying two key factors: the model of the propensity score and the model of the group conditional functions. 
+Specifically, the scenarios include: (a) linear $\mu_0(x)$, $\mu_1(x)$, linear $e(x)$; (b) nonlinear $\mu_0(x)$, $\mu_1(x)$, linear $e(x)$; (c) linear $\mu_0(x)$, $\mu_1(x)$, nonlinear $e(x)$; (d) nonlinear $\mu_0(x)$, $\mu_1(x)$, nonlinear $e(x)$.
+Here, linear functions refer to a linear combination of covariates $x$, while nonlinear functions incorporate quadratic or higher-order terms of the covariates. 
+For both linear and non-linear functions, the nuisance functions only rely on less than $20\%$ of the covariates.
+The total sample size is $4802$. We use a randomly sampled $2802$ data points to obtain the HTE estimators for comparison, and the rest $2000$ data points to evaluate and compare the estimators' performance.
+
+
+For the HTE estimators for comparison, We consider two T-learners \parencite{Kunzel4156}.
+The estimators first estimate $\mu_0(x)$, $\mu_1(x)$ separately and then take the difference $\hat{\mu}_1(x) - \hat{\mu}_0(x)$.
+The key difference between two HTE estimators lies in the machine learning algorithms used to obtain $\hat{\mu}_0(x)$, $\hat{\mu}_1(x)$: (i) LASSO. This method uses LASSO\footnote{We use the R package \textsc{glmnet} for implementation. In particular, we use \textsc{cv.glmnet} to choose the regularization parameter.} to estimate $\mu_0(x)$ and $\mu_1(x)$. Preferred in scenarios (a) and (c), (ii) Boosting. This method uses gradient boosting\footnote{We use \textsc{xgboost} for implementation.} to estimate $\mu_0(x)$ and $\mu_1(x)$. Preferred in scenarios (b) and (d).
+
+
+We implement five assessment methods: three based on absolute error estimation and two based on relative error estimation.
+For absolute error estimators, we consider
+the one-step correction estimator based on our efficient influence function (EIF), as defined in \eqref{eq:estimator.absolute.error}, the one-step correction estimator by \cite{alaa2019validating} (IF), and the plug-in estimator (plug in): $\sum_{i=1}^n (\hat{\tau}(X_i) - \tilde{\tau}(X_i))^2 / n$, where $\tilde{\tau}(x)$ is the AIPW estimator of the HTE $\tau(x)$ obtained from the test dataset.
+For relative error estimators, we consider the one-step correction estimator based on our efficient influence function (EIF) in \eqref{eq:estimator.relative.error}\footnote{We note that the relative error estimator implied by the plug-in estimator of the absolute error is equivalent to EIF relative error estimator.
+Therefore, we merge the two methods in display.}, and the one-step correction estimator of the relative error based on the influence function in \cite{alaa2019validating}.
+We use 2-fold cross-fitting.
+All five methods share the same nuisance function estimators for fair comparison, which we specify below.
+
+
+To compute the coverage and average width of the confidence intervals ($90\%$ confidence level), and the probability of selecting the correct model (selection accuracy), for scenarios (a) through (d), we generate $100$ different realizations of $\mu_0(x)$, $\mu_1(x)$, and $e(x)$, adhering to the linear/nonlinear constraints aforementioned. For each realization of $\mu_0(x)$, $\mu_1(x)$, and $e(x)$, we further simulate $Y$ and $Z$ independently $100$ times to compute the coverage. 
+Similarly for other metrics above.
+
+
+\subsection{Confidence interval coverage}\label{sec:coverage}
+
+In \Cref{fig:simulation.coverage}, we examine the simplest scenario (a), where both the propensity score function $e(x)$ and the outcome functions $\mu_0(x)$ and $\mu_1(x)$ are linear. We compare the five evaluation methods equipped with three nuisance functions: (i) the true nuisance functions, (ii) a well-specified linear model, and (iii) an erroneous gradient boosting learner.
+
+
+For relative errors, the EIF confidence interval is consistently valid, robust to the nuisance function estimator provided.
+In contrast, the coverage of the relative error IF confidence interval fails to achieve the correct coverage.
+For absolute errors, the coverage depends heavily on the accuracy of the nuisance learners. 
+When the true nuisance estimators are used, the coverage of the EIF method for both the LASSO HTE estimator and the Boosting HTE estimator is close to the target level. However, as we shift to the nuisance estimator obtained using linear regression (which is well-specified but not as accurate), the coverage decreases, and it almost never covers the true value when the inaccurate gradient boosting with underfitting is used. 
+The absolute error estimator IF consistently undercovers, even with true nuisance functions.
+Additionally, as shown in the appendix, 
+% \Cref{fig:simulation.width}
+the width of the confidence intervals based on IF, for both relative and absolute error estimators, is significantly larger than those based on EIF, indicating less precision.
+
+
+\subsection{Probability of selecting the winner}\label{sec:selection.accuracy}
+
+We present the probability of selecting the correct model in \Cref{fig:ACIC.selection.accuracy}. The analysis covers settings (a) through (d), where in (a) and (c), the LASSO HTE estimator outperforms the Boosting HTE estimator by a moderate margin, whereas in (b) and (d), the Boosting HTE estimator significantly outperforms the LASSO HTE estimator.
+For absolute error confidence intervals, we select the better estimator if the two confidence intervals at the $\alpha/2$ level do not overlap. Otherwise, no selection is made. 
+In contrast, for relative error confidence intervals, we select the better estimator if the confidence interval for the relative error does not contain zero.
+
+
+For the relative error-based methods, we observe that across the four scenarios, the EIF relative error method achieves the highest selection accuracy, followed by the IF relative error method. 
+For the absolute error-based methods, the selection accuracy of the EIF absolute error method is lower in settings (a) and (c). This is because the improvement of the LASSO HTE estimator over the Boosting counterpart is relatively modest, and the gap between them is overshadowed by the wide confidence intervals, resulting in the methods being unable to confidently make a selection. 
+In settings (b) and (d), the gap between the two HTE estimators is more pronounced, leading to a higher probability of correct selection. 
+for the plug-in and IF absolute error methods, the confidence intervals are too wide, preventing confident conclusions made across scenarios.
+
+
+\begin{figure}[ht]
+        \centering
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/simulation_true_coverage_LASSO.pdf}
+        \end{minipage}
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/simulation_true_coverage_Boosting.pdf}
+        \end{minipage}
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/simulation_true_coverage_LASSO_V.S._Boosting.pdf}
+        \end{minipage}       
+        \\ \centering{(i) True} \\          
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/simulation_linear_coverage_LASSO.pdf}
+        \end{minipage}
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/simulation_linear_coverage_Boosting.pdf}
+        \end{minipage}
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/simulation_linear_coverage_LASSO_V.S._Boosting.pdf}
+        \end{minipage}        
+        \\ \centering{(ii) Linear regression} \\ 
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/simulation_gradient_boosting_coverage_LASSO.pdf}
+        \end{minipage}
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/simulation_gradient_boosting_coverage_Boosting.pdf}
+        \end{minipage}
+        \begin{minipage}{0.15\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/simulation_gradient_boosting_coverage_LASSO_V.S._Boosting.pdf}
+        \end{minipage}        
+        \\\centering{(iii) Gradient boosting with underfitting}\\
+        \caption{ 
+        \small
+        Coverage of the estimated absolute (LASSO, Boosting)/relative (LASSO V.S. Boosting) error's $90\%$ confidence intervals across three methods (plug in, IF, EIF) over three nuisance functions ((i) true, (ii) estimated by linear regression, (iii) estimated by gradient boosting with underfitting).
+        }
+    \label{fig:simulation.coverage}
+\end{figure}
+
+% \vspace{-0.5cm}
+
+\begin{figure}[ht]
+\centering
+        \begin{minipage}{0.23\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/ACIC_linear_propensity_linear_HTE_selection_accuracy_absolute_error.pdf}
+        \end{minipage}
+            \begin{minipage}{0.23\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/ACIC_linear_propensity_linear_HTE_selection_accuracy_relative_error.pdf}
+        \end{minipage}
+        \centering{(a) Linear $\mu_0(x)$, $\mu_1(x)$, linear $e(x)$} \\
+                \begin{minipage}{0.23\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/ACIC_linear_propensity_nonlinear_HTE_selection_accuracy_absolute_error.pdf}
+        \end{minipage}
+            \begin{minipage}{0.23\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/ACIC_linear_propensity_nonlinear_HTE_selection_accuracy_relative_error.pdf}
+        \end{minipage}
+        \centering{(b) Nonlinear $\mu_0(x)$, $\mu_1(x)$, linear $e(x)$} \\
+                \begin{minipage}{0.23\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/ACIC_nonlinear_propensity_linear_HTE_selection_accuracy_absolute_error.pdf}
+        \end{minipage}
+            \begin{minipage}{0.23\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/ACIC_nonlinear_propensity_linear_HTE_selection_accuracy_relative_error.pdf}
+        \end{minipage}
+        \centering{(c) Linear $\mu_0(x)$, $\mu_1(x)$, nonlinear $e(x)$} \\
+                \begin{minipage}{0.23\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/ACIC_nonlinear_propensity_nonlinear_HTE_selection_accuracy_absolute_error.pdf}
+        \end{minipage}
+            \begin{minipage}{0.23\textwidth}
+                \centering
+                \includegraphics[clip, trim = 0cm 0cm 0cm 0cm, width = \textwidth]{plot/ACIC_nonlinear_propensity_nonlinear_HTE_selection_accuracy_relative_error.pdf}
+        \end{minipage}
+        \centering{(d) Nonlinear $\mu_0(x)$, $\mu_1(x)$, nonlinear $e(x)$} \\
+        \caption{
+        \small The probability of correctly selecting the better HTE estimator by comparing absolute/relative error's confidence intervals across three methods (plug in, IF, EIF) over four scenarios ((a) to (d)).   
+        }
+    \label{fig:ACIC.selection.accuracy}
+\end{figure}
+
+\vspace{-0.5cm}
+
+\section{DISCUSSIONS}\label{sec:discussion}
+
+% The evaluation of HTE estimators typically involves additional estimation steps due to the inherent missingness of counterfactuals. 
+We advocate that the comparison of HTE estimators should account for the randomness incurred in the test stage to determine the more accurate estimator with statistical confidence. 
+We propose to achieve this goal by constructing confidence intervals for the relative error between two HTE estimators rather than their absolute errors.
+Explicitly, we derive a one-step correction estimator based on the efficient influence function, and provide the asymptotically narrowest confidence interval of the relative error.
+The relative error confidence interval is less sensitive to nuisance function estimation errors and is more powerful in identifying the better HTE estimator when the candidate estimators are similar.
+% Through empirical evaluation on the benchmark dataset from the 2016 ACIC challenge, we show that our relative error confidence interval achieves robust coverage regardless of the nuisance estimators used, and correctly determines the better HTE estimator with high probability.
+
+
+We discuss potential directions for future research. 
+\begin{itemize}
+    \item 
+    % In this paper, we focus on evaluating the relative performance of provided HTE estimators. 
+    An intriguing direction for future exploration is how the relative error evaluation method can be integrated into the training process to produce a more accurate HTE estimator. Specifically, one potential approach is to use cross-validation in the HTE estimation, where the validation step is carried out using our proposed evaluation method. 
+
+    \item 
+    % In this paper, we investigate the comparison of HTE estimators' errors averaged across the entire population. 
+    Note that some HTE estimator could be overall accurate but considerably less precise in underrepresented groups due to insufficient training data. 
+    This presents a fairness concern, especially since HTE estimators could influence downstream policy decisions. To address this, it would be beneficial to extend the error averaged over the entire population to that averaged over certain subgroups.
+    % This could also provide insights for improving the HTE estimators within these subgroups. 
+
+    
+    \item In this paper, we bypass the degeneracy issue of the asymptotic distribution of the one-step correction estimator by shifting attention from the absolute estimand (absolute error) to its relative counterpart (relative error). It is of interest whether this approach could be generalized to address the degeneracy issue in other scenarios.
+\end{itemize}
+
+
+
+
+\printbibliography
+
+
+\clearpage
+
+% \section{Formatting}
+% Submissions are limited to \textbf{8 pages} excluding references. 
+% There will be an additional page for camera-ready versions of the accepted papers.
+
+% Papers are in 2 columns with the overall line width of 6.75~inches (41~picas).
+% Each column is 3.25~inches wide (19.5~picas).  The space
+% between the columns is .25~inches wide (1.5~picas).  The left margin is 0.88~inches (5.28~picas).
+% Use 10~point type with a vertical spacing of
+% 11~points. Please use US Letter size paper instead of A4.
+
+% Paper title is 16~point, caps/lc, bold, centered between 2~horizontal rules.
+% Top rule is 4~points thick and bottom rule is 1~point thick.
+% Allow 1/4~inch space above and below title to rules.
+
+% Author descriptions are center-justified, initial caps.  The lead
+% author is to be listed first (left-most), and the Co-authors are set
+% to follow.  If up to three authors, use a single row of author
+% descriptions, each one center-justified, and all set side by side;
+% with more authors or unusually long names or institutions, use more
+% rows.
+
+% Use one-half line space between paragraphs, with no indent.
+
+% \section{FIRST LEVEL HEADINGS}
+
+% First level headings are all caps, flush left, bold, and in point size
+% 12. Use one line space before the first level heading and one-half line space
+% after the first level heading.
+
+% \subsection{Second Level Heading}
+
+% Second level headings are initial caps, flush left, bold, and in point
+% size 10. Use one line space before the second level heading and one-half line
+% space after the second level heading.
+
+% \subsubsection{Third Level Heading}
+
+% Third level headings are flush left, initial caps, bold, and in point
+% size 10. Use one line space before the third level heading and one-half line
+% space after the third level heading.
+
+% \paragraph{Fourth Level Heading}
+
+% Fourth level headings must be flush left, initial caps, bold, and
+% Roman type.  Use one line space before the fourth level heading, and
+% place the section text immediately after the heading with no line
+% break, but an 11 point horizontal space.
+
+% %%%
+% \subsection{Citations, Figure, References}
+
+
+% \subsubsection{Citations in Text}
+
+% Citations within the text should include the author's last name and
+% year, e.g., (Cheesman, 1985). 
+% %Apart from including the author's last name and year, citations can follow any style, as long as the style is consistent throughout the paper.  
+% Be sure that the sentence reads
+% correctly if the citation is deleted: e.g., instead of ``As described
+% by (Cheesman, 1985), we first frobulate the widgets,'' write ``As
+% described by Cheesman (1985), we first frobulate the widgets.''
+
+
+% The references listed at the end of the paper can follow any style as long as it is used consistently.
+
+% %Be sure to avoid
+% %accidentally disclosing author identities through citations.
+
+% \subsubsection{Footnotes}
+
+% Indicate footnotes with a number\footnote{Sample of the first
+%   footnote.} in the text. Use 8 point type for footnotes. Place the
+% footnotes at the bottom of the column in which their markers appear,
+% continuing to the next column if required. Precede the footnote
+% section of a column with a 0.5 point horizontal rule 1~inch (6~picas)
+% long.\footnote{Sample of the second footnote.}
+
+% \subsubsection{Figures}
+
+% All artwork must be centered, neat, clean, and legible.  All lines
+% should be very dark for purposes of reproduction, and art work should
+% not be hand-drawn.  Figures may appear at the top of a column, at the
+% top of a page spanning multiple columns, inline within a column, or
+% with text wrapped around them, but the figure number and caption
+% always appear immediately below the figure.  Leave 2 line spaces
+% between the figure and the caption. The figure caption is initial caps
+% and each figure should be numbered consecutively.
+
+% Make sure that the figure caption does not get separated from the
+% figure. Leave extra white space at the bottom of the page rather than
+% splitting the figure and figure caption.
+% \begin{figure}[ht]
+% \vspace{.3in}
+% \centerline{\fbox{This figure intentionally left non-blank}}
+% \vspace{.3in}
+% \caption{Sample Figure Caption}
+% \end{figure}
+
+% \subsubsection{Tables}
+
+% All tables must be centered, neat, clean, and legible. Do not use hand-drawn tables.
+% Table number and title always appear above the table.
+% See Table~\ref{sample-table}.
+
+% Use one line space before the table title, one line space after the table title,
+% and one line space after the table. The table title must be
+% initial caps and each table numbered consecutively.
+
+% \begin{table}[ht]
+% \caption{Sample Table Title} \label{sample-table}
+% \begin{center}
+% \begin{tabular}{ll}
+% \textbf{PART}  &\textbf{DESCRIPTION} \\
+% \hline \\
+% Dendrite         &Input terminal \\
+% Axon             &Output terminal \\
+% Soma             &Cell body (contains cell nucleus) \\
+% \end{tabular}
+% \end{center}
+% \end{table}
+
+% \section{SUPPLEMENTARY MATERIAL}
+
+% If you need to include additional appendices during submission, you can include them in the supplementary material file.
+% You can submit a single file of additional supplementary material which may be either a pdf file (such as proof details) or a zip file for other formats/more files (such as code or videos). 
+% Note that reviewers are under no obligation to examine your supplementary material. 
+% If you have only one supplementary pdf file, please upload it as is; otherwise gather everything to the single zip file.
+
+% You must use \texttt{aistats2025.sty} as a style file for your supplementary pdf file and follow the same formatting instructions as in the main paper. 
+% The only difference is that it must be in a \emph{single-column} format.
+% You can use \texttt{supplement.tex} in our starter pack as a starting point.
+% Alternatively, you may append the supplementary content to the main paper and split the final PDF into two separate files.
+
+% \section{SUBMISSION INSTRUCTIONS}
+
+% To submit your paper to AISTATS 2025, please follow these instructions.
+
+% \begin{enumerate}
+%     \item Download \texttt{aistats2025.sty}, \texttt{fancyhdr.sty}, and \texttt{sample\_paper.tex} provided in our starter pack. 
+%     Please, do not modify the style files as this might result in a formatting violation.
+    
+%     \item Use \texttt{sample\_paper.tex} as a starting point.
+%     \item Begin your document with
+%     \begin{flushleft}
+%     \texttt{\textbackslash documentclass[twoside]\{article\}}\\
+%     \texttt{\textbackslash usepackage\{aistats2025\}}
+%     \end{flushleft}
+%     The \texttt{twoside} option for the class article allows the
+%     package \texttt{fancyhdr.sty} to include headings for even and odd
+%     numbered pages.
+%     \item When you are ready to submit the manuscript, compile the latex file to obtain the pdf file.
+%     \item Check that the content of your submission, \emph{excluding} references and reproducibility checklist, is limited to \textbf{8 pages}. The number of pages containing references and reproducibility checklist only is not limited.
+%     \item Upload the PDF file along with other supplementary material files to the CMT website.
+% \end{enumerate}
+
+% \subsection{Camera-ready Papers}
+
+% %For the camera-ready paper, if you are using \LaTeX, please make sure
+% %that you follow these instructions.  
+% % (If you are not using \LaTeX,
+% %please make sure to achieve the same effect using your chosen
+% %typesetting package.)
+
+% If your papers are accepted, you will need to submit the camera-ready version. Please make sure that you follow these instructions:
+% \begin{enumerate}
+%     %\item Download \texttt{fancyhdr.sty} -- the
+%     %\texttt{aistats2022.sty} file will make use of it.
+%     \item Change the beginning of your document to
+%     \begin{flushleft}
+%     \texttt{\textbackslash documentclass[twoside]\{article\}}\\
+%     \texttt{\textbackslash usepackage[accepted]\{aistats2025\}}
+%     \end{flushleft}
+%     The option \texttt{accepted} for the package
+%     \texttt{aistats2025.sty} will write a copyright notice at the end of
+%     the first column of the first page. This option will also print
+%     headings for the paper.  For the \emph{even} pages, the title of
+%     the paper will be used as heading and for \emph{odd} pages the
+%     author names will be used as heading.  If the title of the paper
+%     is too long or the number of authors is too large, the style will
+%     print a warning message as heading. If this happens additional
+%     commands can be used to place as headings shorter versions of the
+%     title and the author names. This is explained in the next point.
+%     \item  If you get warning messages as described above, then
+%     immediately after $\texttt{\textbackslash
+%     begin\{document\}}$, write
+%     \begin{flushleft}
+%     \texttt{\textbackslash runningtitle\{Provide here an alternative
+%     shorter version of the title of your paper\}}\\
+%     \texttt{\textbackslash runningauthor\{Provide here the surnames of
+%     the authors of your paper, all separated by commas\}}
+%     \end{flushleft}
+%     Note that the text that appears as argument in \texttt{\textbackslash
+%       runningtitle} will be printed as a heading in the \emph{even}
+%     pages. The text that appears as argument in \texttt{\textbackslash
+%       runningauthor} will be printed as a heading in the \emph{odd}
+%     pages.  If even the author surnames do not fit, it is acceptable
+%     to give a subset of author names followed by ``et al.''
+
+%     %\item Use the file sample\_paper.tex as an example.
+
+%     \item The camera-ready versions of the accepted papers are \textbf{9
+%       pages}, plus any additional pages needed for references and reproducibility checklist.
+
+%     \item If you need to include additional appendices,
+%       you can include them in the supplementary
+%       material file.
+
+%     \item Please, do not change the layout given by the above
+%       instructions and by the style file.
+
+% \end{enumerate}
+
+% \subsubsection*{Acknowledgements}
+% All acknowledgments go at the end of the paper, including thanks to reviewers who gave useful comments, to colleagues who contributed to the ideas, and to funding agencies and corporate sponsors that provided financial support. 
+% To preserve the anonymity, please include acknowledgments \emph{only} in the camera-ready papers.
+
+
+% \subsubsection*{References}
+
+% References follow the acknowledgements.  Use an unnumbered third level
+% heading for the references section.  Please use the same font
+% size for references as for the body of the paper---remember that
+% references do not count against your page length total.
+
+% % \begin{thebibliography}{}
+% % \setlength{\itemindent}{-\leftmargin}
+% % \makeatletter\renewcommand{\@biblabel}[1]{}\makeatother
+% % \bibitem{} J.~Alspector, B.~Gupta, and R.~B.~Allen (1989).
+% %     \newblock Performance of a stochastic learning microchip.
+% %     \newblock In D. S. Touretzky (ed.),
+% %     \textit{Advances in Neural Information Processing Systems 1}, 748--760.
+% %     San Mateo, Calif.: Morgan Kaufmann.
+
+% % \bibitem{} F.~Rosenblatt (1962).
+% %     \newblock \textit{Principles of Neurodynamics.}
+% %     \newblock Washington, D.C.: Spartan Books.
+
+% % \bibitem{} G.~Tesauro (1989).
+% %     \newblock Neurogammon wins computer Olympiad.
+% %     \newblock \textit{Neural Computation} \textbf{1}(3):321--323.
+% % \end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section*{Checklist}
+
+
+% %%% BEGIN INSTRUCTIONS %%%
+% The checklist follows the references. For each question, choose your answer from the three possible options: Yes, No, Not Applicable.  You are encouraged to include a justification to your answer, either by referencing the appropriate section of your paper or providing a brief inline description (1-2 sentences). 
+% Please do not modify the questions.  Note that the Checklist section does not count towards the page limit. Not including the checklist in the first submission won't result in desk rejection, although in such case we will ask you to upload it during the author response period and include it in camera ready (if accepted).
+
+% \textbf{In your paper, please delete this instructions block and only keep the Checklist section heading above along with the questions/answers below.}
+% %%% END INSTRUCTIONS %%%
+
+
+ \begin{enumerate}
+
+
+ \item For all models and algorithms presented, check if you include:
+ \begin{enumerate}
+   \item A clear description of the mathematical setting, assumptions, algorithm, and/or model. [Yes]
+   \item An analysis of the properties and complexity (time, space, sample size) of any algorithm. [Yes]
+   \item (Optional) Anonymized source code, with specification of all dependencies, including external libraries. [Yes]
+ \end{enumerate}
+
+
+ \item For any theoretical claim, check if you include:
+ \begin{enumerate}
+   \item Statements of the full set of assumptions of all theoretical results. [Yes]
+   \item Complete proofs of all theoretical results. [Yes]
+   \item Clear explanations of any assumptions. [Yes]     
+ \end{enumerate}
+
+
+ \item For all figures and tables that present empirical results, check if you include:
+ \begin{enumerate}
+   \item The code, data, and instructions needed to reproduce the main experimental results (either in the supplemental material or as a URL). [Yes]
+   \item All the training details (e.g., data splits, hyperparameters, how they were chosen). [Yes]
+         \item A clear definition of the specific measure or statistics and error bars (e.g., with respect to the random seed after running experiments multiple times). [Yes]
+         \item A description of the computing infrastructure used. (e.g., type of GPUs, internal cluster, or cloud provider). [Yes]
+ \end{enumerate}
+
+ \item If you are using existing assets (e.g., code, data, models) or curating/releasing new assets, check if you include:
+ \begin{enumerate}
+   \item Citations of the creator if your work uses existing assets. [Yes]
+   \item The license information of the assets, if applicable. [Not Applicable]
+   \item New assets either in the supplemental material or as a URL, if applicable. [Not Applicable]
+   \item Information about consent from data providers/curators. [Not Applicable]
+   \item Discussion of sensible content if applicable, e.g., personally identifiable information or offensive content. [Not Applicable]
+ \end{enumerate}
+
+ \item If you used crowdsourcing or conducted research with human subjects, check if you include:
+ \begin{enumerate}
+   \item The full text of instructions given to participants and screenshots. [Not Applicable]
+   \item Descriptions of potential participant risks, with links to Institutional Review Board (IRB) approvals if applicable. [Not Applicable]
+   \item The estimated hourly wage paid to participants and the total amount spent on participant compensation. [Not Applicable]
+ \end{enumerate}
+
+ \end{enumerate}
+
+\include{supplement}
+
+
+\end{document}

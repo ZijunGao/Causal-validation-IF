@@ -130,13 +130,31 @@ for(j in 1 : 1){ # only train once, estimate validation error m times.
 }
 
 # Results
+width = list() # width
+
 result = lapply(record.absolute.total, function(y){lapply(y, FUN = function(x){apply(x, 2, mean)})})
 as.data.frame(result)
+width$absolute = as.data.frame(result)[, c(1, 3, 5)] * qnorm(0.95) * 2
 
 result = lapply(record.relative.total, function(y){lapply(y, FUN = function(x){mean(x)})})
 as.data.frame(result)
+width$relative = as.data.frame(result)[, c(1, 3)] * qnorm(0.95) * 2
 
-hist(unlist(lapply(record.relative.total, function(x){mean(abs(x$AVDS - x$oracle) <= qnorm(0.95) * x$sd.AVDS)})), main = "AVDS", xlab = "", xlim = c(0, 1)); abline(v = 0.9, col = "red")
-hist(unlist(lapply(record.relative.total, function(x){mean(abs(x$semiEfficient - x$oracle) <= qnorm(0.95) * x$sd.semiEfficient)})), main = "semiEfficient", xlab = "", xlim = c(0, 1)); abline(v = 0.9, col = "red")
+# coverage
+coverage = list()
+coverage$absolute.plug.in.LASSO = unlist(lapply(record.absolute.total, function(x){mean(abs(x$plug.in[,1] - x$oracle[,1]) <= qnorm(0.95) * x$sd.plug.in[,1])}))
+coverage$absolute.plug.in.xgboost = unlist(lapply(record.absolute.total, function(x){mean(abs(x$plug.in[,2] - x$oracle[,2]) <= qnorm(0.95) * x$sd.plug.in[,2])}))
+coverage$absolute.AVDS.LASSO = unlist(lapply(record.absolute.total, function(x){mean(abs(x$AVDS[,1] - x$oracle[,1]) <= qnorm(0.95) * x$sd.AVDS[,1])}))
+coverage$absolute.AVDS.xgboost = unlist(lapply(record.absolute.total, function(x){mean(abs(x$AVDS[,2] - x$oracle[,2]) <= qnorm(0.95) * x$sd.AVDS[,2])}))
+coverage$absolute.semiEfficient.LASSO = unlist(lapply(record.absolute.total, function(x){mean(abs(x$semiEfficient[,1] - x$oracle[,1]) <= qnorm(0.95) * x$sd.semiEfficient[,1])}))
+coverage$absolute.semiEfficient.xgboost = unlist(lapply(record.absolute.total, function(x){mean(abs(x$semiEfficient[,2] - x$oracle[,2]) <= qnorm(0.95) * x$sd.semiEfficient[,2])}))
 
+coverage$relative.AVDS = unlist(lapply(record.relative.total, function(x){mean(abs(x$AVDS - x$oracle) <= qnorm(0.95) * x$sd.AVDS)}))
+coverage$relative.semiEfficient = unlist(lapply(record.relative.total, function(x){mean(abs(x$semiEfficient - x$oracle) <= qnorm(0.95) * x$sd.semiEfficient)}))
+
+coverage
+
+
+result = lapply(record.relative.total, function(y){lapply(y, FUN = function(x){mean(x)})})
+as.data.frame(result)
 # saveRDS(list(record.absolute.total = record.absolute.total, record.relative.total = record.relative.total), file.path("~/Desktop/Research/Zijun/causal validation/Causal-validation/data", paste("ihdp ", setting, ".rds", sep= "")))

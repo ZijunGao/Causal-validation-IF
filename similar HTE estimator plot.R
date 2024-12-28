@@ -4,8 +4,8 @@ plotDirectory = file.path("~/Desktop/Research/Zijun/causal validation/Causal-val
 
 
 setting = c("similar HTE estimator absolute", "similar HTE estimator relative")
-record.absolute = readRDS(file.path(path, paste(setting[1], "rds", sep = ".")))
-record.relative = readRDS(file.path(path, paste(setting[2], "rds", sep = ".")))
+record.absolute = readRDS(file.path(path, paste(setting[1], "rds", sep = ".")))$record
+record.relative = readRDS(file.path(path, paste(setting[2], "rds", sep = ".")))$record
 
 
 
@@ -23,9 +23,9 @@ custom_theme = theme_minimal(base_size = 14) + theme(
   panel.grid = element_blank()
 )
 
-index = 26 # 26
+index = 8 # 8; 26
 lambda.index = 5; lambda.index.reference = 8
-pdf(file = paste(plotDirectory, "/similar HTE estimator", " LASSO", ".pdf", sep = ""), width = 5, height = 3.5)
+# pdf(file = paste(plotDirectory, "/similar_HTE_estimator", "_LASSO", ".pdf", sep = ""), width = 5, height = 3.5)
 plot.data = data.frame(
   Method = factor(rep(c("plug in", "IF", "EIF"), each = 3), levels = c("plug in", "IF", "EIF")),
   Estimator= factor(rep(c("HTE estimator 1", "HTE estimator 2", "HTE estimator 1 V.S. HTE estimator 2"), times = 3), 
@@ -65,5 +65,5 @@ ggplot(plot.data[plot.data$Method != "plug in",], aes(x = Method, y = pmax(0, er
   scale_color_manual(values = c("dark green", "coral")) +
   # ylim(-2.5, 5.1) + 
   custom_theme
-dev.off()
+# dev.off()
 

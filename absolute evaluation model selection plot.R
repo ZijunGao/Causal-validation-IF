@@ -8,6 +8,7 @@ library("ggplot2")
 library("reshape2")
 
 setting = c("similar HTE estimator")
+plot.name = c("similar_HTE_estimator")
 
 temp = readRDS(file.path(path, paste(setting, "absolute.rds", sep = " ")))
 result = temp$result
@@ -33,7 +34,7 @@ plot.data.long <- melt(plot.data, id.vars = "lambda",
                        value.name = "Value")
 
 # Plot
-# pdf(file = paste(plotDirectory, "/", setting, " absolute error curve", ".pdf", sep = ""), width = 4, height = 3.5)
+# pdf(file = paste(plotDirectory, "/", plot.name, "_absolute_error_curve", ".pdf", sep = ""), width = 4, height = 3.5)
 g <- ggplot() +
   geom_line(data = subset(plot.data.long, Method == "oracle"), 
             aes(x = lambda, y = Value, color = "oracle"), 
